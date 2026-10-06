@@ -5,12 +5,14 @@ on:
     branches: [main]
   workflow_dispatch:
 
-permissions:
-  contents: read
+concurrency:
+  group: ${{ github.workflow }}
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v7
 
@@ -28,3 +30,13 @@ jobs:
           path: dist/my-anki-cards.apkg
           archive: false
           if-no-files-found: error
+
+      - if: github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete latest --yes --cleanup-tag || true
+          gh release create latest dist/my-anki-cards.apkg \
+            --target "$GITHUB_SHA" \
+            --title "Latest deck" \
+            --notes "Built from $GITHUB_SHA"
