@@ -8,11 +8,11 @@ What are the running times (time complexities) of BFS, DFS, Dijkstra, Bellman-Fo
 |---|---|---|
 | **BFS** | `O(V + E)` | Every node is queued once and every edge is looked at once |
 | **DFS** | `O(V + E)` | Every node is entered once and every edge is looked at once |
-| **Dijkstra** (cheapest route, no negative costs) | `O(E log V)` | Like BFS, but each push and pop on the priority queue costs about `log V` |
+| **Dijkstra** (cheapest route, no negative costs) | `O(E log V)` with a binary heap | Like BFS, but each push and pop on the priority queue costs about `log V` |
 | **Bellman-Ford** (negative costs, arbitrage) | `O(V × E)` | Up to `V - 1` rounds, and each round looks at all `E` edges |
 | **Bellman-Ford limited to `k` legs** | `O(k × E)` | Only `k` rounds are run |
 | **Kahn's topological order** | `O(V + E)` | Each node is queued once and each edge reduces one counter |
-| **Union-find** | close to constant per operation | Path compression keeps the trees almost flat |
+| **Union-find** | close to constant per operation | Path compression and union by size keep the trees almost flat |
 | **List all routes** | exponential | The number of routes can double each time you add a node (a fully connected graph has about `(V - 2)!` routes between two nodes) |
 | **Optimal account balancing** | exponential | It tries many ways to pair up people, so it only suits small inputs |
 

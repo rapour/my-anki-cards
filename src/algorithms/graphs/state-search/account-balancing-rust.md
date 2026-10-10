@@ -4,7 +4,7 @@ Write a Rust function that returns the minimum number of transactions needed to 
 
 Step one builds the net balance of each person. Step two, `settle`, takes the first unsettled person (`start`), tries to pass their balance to each later person of the opposite sign, recurses, and **undoes** the move afterwards.
 
-A cancelling pair (`balances[i] + balances[start] == 0`) is taken immediately with no further search, since it settles two people with one payment.
+Once a cancelling pair (`balances[i] + balances[start] == 0`) has been tried, the loop stops (`break`): settling two people with one payment cannot be beaten, so the remaining candidates are skipped. Only this first pruning trick is shown. The second one (skipping a candidate whose balance repeats one already tried) is left out to keep the code short.
 
 ```rust
 use std::collections::HashMap;
@@ -12,8 +12,8 @@ use std::collections::HashMap;
 fn min_transactions(transactions: &[(usize, usize, i32)]) -> usize {
     let mut net: HashMap<usize, i32> = HashMap::new();
     for &(from, to, amount) in transactions {
-        *net.entry(from).or_insert(0) -= amount; // paid out: now owed money
-        *net.entry(to).or_insert(0) += amount; // received: now owes money
+        *net.entry(from).or_insert(0) += amount; // paid out: now owed money
+        *net.entry(to).or_insert(0) -= amount; // received: now owes money
     }
     let mut balances: Vec<i32> = net.into_values().filter(|&b| b != 0).collect();
     settle(&mut balances, 0)

@@ -2,7 +2,7 @@ Write a Rust evaluator for rules like `amount>500ANDamount<2000`, with `AND`, `O
 
 ---
 
-`Expr` is the tree. `parse` splits on `OR`, then `AND`, then at the comparison operator. `evaluate` is the post-order DFS: it calls itself on the children and combines their answers. A comparison on two numbers is done numerically, otherwise as text (where only `==` and `!=` make sense). A field missing from the payment makes its comparison false.
+`Expr` is the tree. `parse` splits on `OR`, then `AND`, then at the comparison operator, and trims any spaces. `evaluate` is the post-order DFS: it calls itself on the children and combines their answers. A comparison on two numbers is done numerically, otherwise as text (where only `==` and `!=` make sense). A field missing from the payment makes its comparison false.
 
 ```rust
 use std::collections::HashMap;
@@ -27,9 +27,9 @@ fn parse_compare(text: &str) -> Expr {
     for op in [">=", "<=", "==", "!=", ">", "<"] {
         if let Some((field, value)) = text.split_once(op) {
             return Expr::Compare {
-                field: field.to_string(),
+                field: field.trim().to_string(),
                 op: op.to_string(),
-                value: value.to_string(),
+                value: value.trim().to_string(),
             };
         }
     }
@@ -78,6 +78,11 @@ fn main() {
     let uk_small = HashMap::from([("country", "UK"), ("amount", "5")]);
     assert!(evaluate(&rule, &us_small));
     assert!(!evaluate(&rule, &uk_small));
+
+    // spaces around the keywords and operators make no difference
+    let spaced = parse("country==US OR amount > 500 AND amount < 2000");
+    assert!(evaluate(&spaced, &us_small));
+    assert!(!evaluate(&spaced, &uk_small));
     println!("rule evaluator works");
 }
 ```

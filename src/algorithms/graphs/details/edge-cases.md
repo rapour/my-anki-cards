@@ -11,7 +11,7 @@ Decide each of these before you write the main loop. Interviewers often look for
 | Both currencies exist but are on separate islands (no route) | Return "not possible" |
 | Empty input | Every query is "not possible" |
 
-**Floating-point numbers are inexact.** `1.1 * 1.3` is not stored as exactly 1.43, and going USD to CAD and back may give 0.9999999999999999 instead of 1. So:
+**Floating-point numbers are inexact.** `1.1 * 1.3` gives `1.4300000000000002`, not 1.43, and converting out and back can give `0.9999999999999999` instead of 1 (try `7.7 * (1.0 / 7.7)`). So:
 
 - never compare floats with `==`; compare with a tolerance, such as `(a - b).abs() < 1e-9`;
 - round only when you **print or return** the final answer, never in the middle of the calculation.

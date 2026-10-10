@@ -15,7 +15,7 @@ Steps:
 
 The *visited* marker matters because graphs can contain loops. Without it you would keep walking round the same loop forever.
 
-Because nodes are served in the order they joined, every node one step from the start is processed before any node two steps away. That is why BFS finds **the route with the fewest steps**.
+Because nodes are served in the order they joined, every node one step from the start is processed before any node two steps away. That is why BFS finds **the route with the fewest steps** (when every edge counts the same).
 
 It visits each node once and looks at each edge once, so it costs `O(V + E)`.
 
