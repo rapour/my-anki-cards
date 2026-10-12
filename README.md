@@ -35,6 +35,12 @@ Folders under `src/` are topics, nested as deep as you like. `src/databases/sql/
 
 Cards placed directly in `src/` go into the `My Anki Cards` deck and have no topic.
 
+## Sources and licences
+
+The cards in `src/algorithms/math/binary-exponentiation/` and `src/algorithms/strings/rolling-hash/` are adapted from two articles on cp-algorithms, [Binary Exponentiation](https://cp-algorithms.com/algebra/binary-exp.html) and [String Hashing](https://cp-algorithms.com/string/string-hashing.html), which are licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). The explanations are rewritten, and the Rust examples and diagrams are new. Under that licence these cards are shared under the same terms. They also refer to practice problems from the two articles by name; the problem texts belong to their sites.
+
+The rolling hash cards use the form of the hash in which the degree-0 term comes last. The cp-algorithms article defines it the other way round, so those cards go beyond what the article covers.
+
 ## Getting the deck
 
 ### Latest build
