@@ -1,4 +1,4 @@
-How many 64-byte cache lines fit in one 4 KB page?
+A *cache line* is the 64-byte block that the CPU cache loads at a time, and a *page* is the 4 KB block of memory that address translation works on. How many cache lines fit in one page?
 
 ---
 
@@ -79,5 +79,5 @@ How many 64-byte cache lines fit in one 4 KB page?
 </svg>
 </div>
 
-- So one TLB entry, which maps one page, covers 64 cache lines.
+- So one TLB entry (one cached address translation, for one page) covers 64 cache lines.
 - This assumes 4 KB pages and 64-byte lines. Check the manual for your CPU.

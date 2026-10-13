@@ -1,4 +1,4 @@
-How do huge pages change the TLB reach of a TLB with 64 entries?
+A TLB (the CPU's small cache of page-to-frame address translations) has 64 entries, and its *reach* is the memory it covers: entries × page size. How do huge pages change the reach, compared with normal 4 KB pages?
 
 ---
 
@@ -34,5 +34,5 @@ With 2 MB pages instead of 4 KB: 64 × 2 MB = **128 MB**, instead of 256 KB. Tha
 </svg>
 </div>
 
-- On x86-64 the huge page sizes are 2 MB and 1 GB.
+- A *huge page* is a page much bigger than the usual 4 KB. On x86-64 the sizes are 2 MB and 1 GB.
 - Fewer misses for programs that use a lot of memory spread over many pages.

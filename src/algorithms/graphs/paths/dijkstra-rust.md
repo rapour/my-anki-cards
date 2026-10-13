@@ -1,10 +1,10 @@
-Write Dijkstra's algorithm in Rust to find the cheapest shipping route and its cost, given legs such as `"NYC:LON:air:500,NYC:PAR:air:300"`.
+Shipping legs are written as text such as `"NYC:LON:air:500,NYC:PAR:air:300"`, where each one-way leg is `FROM:TO:METHOD:PRICE`. Write Dijkstra's algorithm in Rust to find the cheapest route between two places, and its cost.
 
 ---
 
 Each leg is directed and has a method (air, rail and so on) and a cost. The heap stores `(cost, node)` wrapped in `Reverse`, because Rust's `BinaryHeap` is a *max*-heap and wrapping in `Reverse` turns it into the min-heap we need.
 
-The line `if cost > best[node] { continue; }` skips stale heap entries. We never remove old entries when we find a cheaper way to a node, so an outdated, more expensive entry may still be in the heap. When it eventually comes out we simply ignore it.
+`best` stores the cheapest cost found so far for each place, and `parent` stores the place each one was reached from, so the route can be rebuilt backwards at the end. The line `if cost > best[node] { continue; }` skips stale heap entries. We never remove old entries when we find a cheaper way to a node, so an outdated, more expensive entry may still be in the heap. When it eventually comes out we simply ignore it.
 
 ```rust
 use std::cmp::Reverse;

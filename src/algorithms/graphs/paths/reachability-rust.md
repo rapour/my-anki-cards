@@ -1,4 +1,4 @@
-Write a Rust function `can_reach` that says whether currency `from` can be converted into currency `to`, given quotes such as `"USD:CAD:1.3,EUR:USD:1.1"`. Use DFS with a visited set.
+Write a Rust function `can_reach` that says whether currency `from` can be converted into currency `to`, given quotes such as `"USD:CAD:1.3,EUR:USD:1.1"`. Use DFS with a *visited set*, the set of currencies already seen, so that no currency is explored twice.
 
 ---
 
@@ -69,4 +69,4 @@ Notes on the Rust details:
 
 - `graph.get(current).into_iter().flatten()` means "the neighbours of `current`, or nothing at all if `current` is not in the graph".
 - `reachable` creates a fresh `HashSet` for every search, because the visited set belongs to one search.
-- The BFS version is identical in outcome. Replace the recursion with a `VecDeque` (see the BFS card).
+- A BFS version gives the same answer: replace the recursion with a loop over a `VecDeque` (a queue), marking each currency as visited when it is added to the queue.

@@ -51,12 +51,9 @@ impl Palindromes {
         }
     }
 
-    /// Is s[l..r) a palindrome? Position i of s is position n - 1
-    /// - i of
-    /// the reversed string,
-    /// so s[l..r) read backwards is the reversed string's part [n
-    /// - r, n
-    /// - l).
+    /// Is s[l..r) a palindrome? Letter i of s is letter n-1-i of the
+    /// reversed string, so s[l..r) read backwards is the part
+    /// [n-r, n-l) of the reversed string.
     fn is_palindrome(&self, l: usize, r: usize) -> bool {
         self.forward.get(l, r)
             == self.backward.get(self.n - r, self.n - l)

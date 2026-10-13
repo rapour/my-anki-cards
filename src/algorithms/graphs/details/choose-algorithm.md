@@ -1,27 +1,37 @@
-Quick rule: given a graph question, when do you choose **BFS**, when **DFS**, and when must you use something else (Dijkstra or Bellman-Ford)?
+A graph question asks for one specific thing. How do you decide between BFS, DFS, Dijkstra's algorithm and Bellman-Ford?
 
 ---
 
-First ask what the question wants, and whether the edges carry numbers.
+First ask **what the question wants**, then ask **whether the edges carry numbers** such as costs, prices or rates.
 
-| The question asks for | Use | Reason |
+**All edges count the same (or carry no numbers):**
+
+| The question asks for | Use | Why |
 |---|---|---|
 | Does any route exist? | DFS (BFS also works) | You only need yes or no. DFS is the shortest to write |
-| Any one route, shown as a list | DFS with a path stack, or BFS with a parent map | Either records how you got there |
-| Fewest steps or hops | **BFS** | It meets nodes in order of distance, so the first arrival is the shortest |
-| Reachable within `k` steps | BFS, one level at a time | Stop after level `k` |
-| Every route | DFS with undo (backtracking) | You must try each branch and rub out your marks |
-| Is there a cycle? Topological order? | DFS with three states (or Kahn's BFS for the order) | You need to know which nodes are on the current route |
-| Which records are in one group? | BFS or DFS from each unvisited node, or union-find | Flood-fill each island |
-| Evaluate a formula tree | DFS (post-order) | Children must be answered before parents |
-| Try an option, recurse, undo (debt settling) | DFS backtracking | A search over choices |
+| One route, as a list of nodes | DFS with a *path list*, or BFS with a *parent map* | Either remembers how you got to each node |
+| The route with the fewest edges | **BFS** | It reaches nodes closest first, so the first arrival at the target is the shortest |
+| Can I reach it using at most `k` edges? | BFS, one *level* at a time | A level is all the nodes that are the same number of edges from the start. Stop after level `k` |
+| Every route | DFS with undo (backtracking) | Try each branch, then unmark the node so other routes can use it |
+| Is there a cycle? Is there a valid order for tasks that depend on each other? | DFS with three states, or Kahn's algorithm for the order | You must know which nodes are on the route being followed right now |
+| Which nodes form one connected group? | BFS or DFS started from each unvisited node, or union-find | Each search finds one whole group |
+| Evaluate a formula written as a tree | DFS, children first (*post-order*) | A node's answer needs its children's answers |
+| Try a choice, recurse, undo it (for example settling debts) | DFS backtracking | A search over choices, not over a graph you were given |
 
-**When each edge has its own cost, neither BFS nor DFS is enough:**
+**Edges have costs:**
 
-| The edge numbers are | Use |
+| The costs are | Use |
 |---|---|
-| Prices or distances that add up, never negative | **Dijkstra** (BFS with a priority queue) |
-| Anything that may be negative, or multiplied rates turned into logarithms | **Bellman-Ford** |
-| A limit on the number of legs as well | Bellman-Ford with `k` rounds |
+| Prices or distances that add up and are never negative | **Dijkstra** (like BFS, but with a priority queue) |
+| Possibly negative, or rates that multiply (turned into logarithms) | **Bellman-Ford** |
+| A limit on the number of edges as well | Bellman-Ford, stopped after `k` rounds |
 
-**One-line version:** BFS for fewest steps and level-by-level work. DFS for existence, all routes, cycles, backtracking and trees. If edges have different costs, move to Dijkstra or Bellman-Ford.
+**Terms used above**
+
+- *Path list*: the list of nodes on the route DFS is following right now.
+- *Parent map*: a map that stores, for each node, the node we first reached it from. Walking it backwards from the target rebuilds the route.
+- *Three states*: every node is *unvisited*, *in progress* (on the current route) or *done*.
+- *Priority queue*: a collection that always hands back its smallest item first.
+- *Union-find*: a structure that merges groups and tells you which group a node belongs to.
+
+**One-line version:** BFS for fewest edges and level by level. DFS for existence, all routes, cycles and trees. If edges have different costs, Dijkstra or Bellman-Ford.

@@ -1,4 +1,4 @@
-What question does the TLB answer, and what question does the L1/L2 cache answer?
+What question does the TLB (the CPU's cache of address translations) answer, and what question does the L1/L2 data cache answer?
 
 ---
 

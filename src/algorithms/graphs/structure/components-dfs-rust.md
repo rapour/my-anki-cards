@@ -1,8 +1,8 @@
-Write a Rust function that groups records into connected components (entities), given the list of matching pairs. Use DFS with an explicit stack.
+Records are numbered 0, 1, 2, ... and you are given a list of matching pairs `(a, b)`, meaning that records `a` and `b` describe the same real-world thing. Write a Rust function that groups the records into *connected components*: groups of records that can reach each other through matches. Use DFS with an explicit stack, a `Vec` that you push to and pop from yourself.
 
 ---
 
-First we turn the list of pairs into neighbour lists. The pairs are undirected ("A matches B" works both ways), so each pair adds an edge in both directions. Then we scan the records, and for each unassigned one we start a new group and flood-fill outwards.
+First we turn the list of pairs into neighbour lists. The pairs are undirected ("A matches B" works both ways), so each pair adds an edge in both directions. Then we scan the records, and for each unassigned one we start a new group and flood-fill outwards (visit every record reachable from it and give each the same group number).
 
 This version uses an explicit `stack` (a `Vec`) rather than recursion, which avoids any risk of overflowing the program's call stack on long chains of matches.
 

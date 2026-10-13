@@ -1,6 +1,8 @@
-Write a Rust function that says whether currency `to` can be reached from `from` using **at most** `max_hops` conversions, processing BFS one level at a time.
+Exchange rates arrive as text such as `"USD:CAD:1.3,EUR:USD:1.1"`. Each quote `FROM:TO:RATE` means that 1 unit of `FROM` buys `RATE` units of `TO`. Write a Rust function that says whether currency `to` can be reached from currency `from` using **at most** `max_hops` conversions (a *hop* is one conversion). Run BFS one *level* at a time, where level `i` is the set of currencies exactly `i` conversions from the start.
 
 ---
+
+The helper `build_graph` splits the text on `,` and `:` and builds a map from each currency to a list of `(neighbour, rate)` pairs. Every quote also adds its reverse, with rate `1 / rate`.
 
 `level` holds every node that is exactly `i` steps from the start. Each loop iteration first checks the level for the target, and then builds the next level from unvisited neighbours. The loop runs `max_hops + 1` times, covering level 0 (the start itself) up to level `max_hops`.
 

@@ -1,8 +1,8 @@
-Write a Rust evaluator for rules like `amount>500ANDamount<2000`, with `AND`, `OR` and the operators `> < >= <= == !=`. Build an expression tree and evaluate it with DFS.
+A rule is text such as `amount>500ANDamount<2000`, using `AND`, `OR` and the operators `> < >= <= == !=`, and a payment is a set of named values. Write a Rust evaluator that builds an *expression tree* from the rule and evaluates it with DFS.
 
 ---
 
-`Expr` is the tree. `parse` splits on `OR`, then `AND`, then at the comparison operator, and trims any spaces. `evaluate` is the post-order DFS: it calls itself on the children and combines their answers. A comparison on two numbers is done numerically, otherwise as text (where only `==` and `!=` make sense). A field missing from the payment makes its comparison false.
+`Expr` is the expression tree: its leaves are single comparisons, and its inner nodes are `AND` or `OR`. `parse` splits on `OR`, then `AND`, then at the comparison operator, and trims any spaces. `evaluate` is the post-order DFS (children first, then the parent): it calls itself on the children and combines their answers. A comparison on two numbers is done numerically, otherwise as text (where only `==` and `!=` make sense). A field missing from the payment makes its comparison false.
 
 ```rust
 use std::collections::HashMap;
@@ -87,4 +87,4 @@ fn main() {
 }
 ```
 
-Caution: splitting on the raw letters `OR` or `AND` would cut a field name such as `ORDER_ID` in half. A production parser first splits the text into tokens. For an interview with the exact input format given, splitting on the keywords is usually accepted.
+Caution: splitting on the raw letters `OR` or `AND` would cut a field name such as `ORDER_ID` in half. A robust parser first splits the text into tokens (words and symbols). Splitting on the keywords is fine when the input format is fixed and field names cannot contain them.

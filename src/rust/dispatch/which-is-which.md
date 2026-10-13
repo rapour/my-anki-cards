@@ -1,4 +1,4 @@
-Which of these functions use static dispatch, and which use dynamic dispatch?
+`Shape` is a trait with a method `area(&self) -> f64`. Which of these functions use static dispatch, and which use dynamic dispatch?
 
 ```rust
 fn a(shape: &impl Shape) -> f64 { shape.area() }

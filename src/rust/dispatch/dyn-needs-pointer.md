@@ -2,9 +2,9 @@ Why does `Vec<dyn Shape>` not compile, and what do you write instead?
 
 ---
 
-`dyn Shape` has no fixed size: a `Circle` and a `Square` take different amounts of memory. A `Vec` stores its items directly, so it needs every item to have a known size. The compiler says: *the size for values of type `dyn Shape` cannot be known at compilation time*.
+Here `Shape` is a trait, and `Circle` and `Square` are two types that implement it. `dyn Shape` has no fixed size: a `Circle` and a `Square` take different amounts of memory. A `Vec` stores its items directly, so it needs every item to have a known size. The compiler says: *the size for values of type `dyn Shape` cannot be known at compilation time*.
 
-Put the value behind a pointer. A pointer has a known size (16 bytes for a fat pointer):
+Put the value behind a pointer. A pointer has a known size. A reference to a trait object is a *fat pointer*: two pointers, 16 bytes on a 64-bit machine.
 
 ```rust
 let owned: Vec<Box<dyn Shape>> = Vec::new();    // owned values on the heap

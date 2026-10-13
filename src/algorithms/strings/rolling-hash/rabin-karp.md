@@ -1,4 +1,4 @@
-How does Rabin–Karp find every occurrence of a pattern in a text? (SPOJ NHAY, *A Needle in the Haystack*)
+How does Rabin–Karp find every position where a short string (the *pattern*) occurs inside a longer string (the *text*)? (This is SPOJ NHAY, *A Needle in the Haystack*.)
 
 ---
 

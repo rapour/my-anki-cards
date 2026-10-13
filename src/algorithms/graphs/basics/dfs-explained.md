@@ -12,7 +12,7 @@ Steps:
 2. For each neighbour that has not been visited, run DFS on that neighbour (go deeper).
 3. When all neighbours are done, return to whoever called you (backtrack).
 
-DFS costs `O(V + E)`, the same as BFS. It does **not** find the route with the fewest steps, because it may wander down a long corridor before trying a short one.
+DFS costs `O(V + E)` (`V` nodes, `E` edges), the same as BFS. It does **not** find the route with the fewest steps, because it may wander down a long corridor before trying a short one.
 
 It is the natural choice when you need to answer "does a route exist?", "list every route", "is there a cycle?", or when you must try an option and then undo it (backtracking).
 

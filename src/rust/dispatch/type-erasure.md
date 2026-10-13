@@ -26,4 +26,5 @@ let s: Box<dyn Shape> = c; // the type Circle is erased here
 </div>
 
 - The vtable remembers how to call the `Shape` methods. Nothing else about `Circle` is available, so you cannot read `r` through `s`.
-- This conversion is called an *unsized coercion*.
+- This conversion is called an *unsized coercion*: the compiler turns a pointer to a value of known type into a pointer to a value of unknown size, and adds the vtable pointer.
+- Here `Shape` is a trait that `Circle` implements.

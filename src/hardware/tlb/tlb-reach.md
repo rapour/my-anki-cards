@@ -1,8 +1,8 @@
-What is TLB reach, and what is it for 64 entries and 4 KB pages?
+The TLB is the CPU's small cache of address translations, and each entry covers one page. What is the *TLB reach*, and what is it for 64 entries and 4 KB pages?
 
 ---
 
-TLB reach is the amount of memory the CPU can use without a page walk: **entries × page size**.
+TLB reach is the amount of memory the CPU can use without a page walk (a slow table lookup in RAM): **entries × page size**.
 
 64 × 4 KB = **256 KB**
 

@@ -12,10 +12,10 @@ You started with 1 and finished with 1.08, so the loop's rates multiply to 1.08,
 
 **Turning it into a graph question.** Replace every rate with `-ln(rate)` (the negative natural logarithm). Multiplying rates becomes *adding* these weights. A loop whose rates multiply to more than 1 becomes a loop whose weights add to **less than zero**, which is called a **negative cycle**. So "is there arbitrage?" means "is there a negative cycle?".
 
-**Detecting it with Bellman-Ford.**
+**Detecting it with Bellman-Ford**, a shortest-path algorithm that still works when some weights are negative. It works in *rounds*: in one round it tries to improve the best-known distance of every node, using every edge.
 
 1. Start every node at distance 0. This makes sure that every loop in the graph is reachable, wherever it is.
-2. Repeat "try to improve every edge" up to `V` times.
+2. Repeat the round up to `V` times.
 3. Without a negative cycle, improvements must stop after at most `V - 1` rounds, because a best route never needs more than `V - 1` edges.
 4. If an edge can *still* be improved in round number `V`, a negative cycle exists, so the answer is yes.
 

@@ -1,4 +1,4 @@
-Codeforces 271D *Good Substrings*: count the **distinct** substrings that have at most `k` bad letters. How does hashing help?
+Codeforces 271D *Good Substrings*: some letters of the alphabet are marked good and the rest bad. Count the **distinct** substrings that have at most `k` bad letters. How does hashing help?
 
 ---
 

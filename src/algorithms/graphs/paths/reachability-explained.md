@@ -19,6 +19,4 @@ How it works:
 
 - A or B does not appear in the data at all: the answer is no. Check this **first**, so that an unknown currency compared with itself (`XYZ` to `XYZ`) is still rejected.
 - A equals B, and it is in the data: the answer is yes (no conversion needed).
-- A and B sit in two separate islands of the graph (for example JPY and KRW are linked to each other but not to USD): the answer is no.
-
-Where it appears: Currency Conversion part 2 ("indirect conversion through another currency") and checking that a CSV foreign key points to something that exists.
+- A and B sit in two separate *islands* of the graph, groups of nodes that are linked to each other but not to the rest (for example JPY and KRW are linked to each other but not to USD): the answer is no.

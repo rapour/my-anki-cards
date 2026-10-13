@@ -1,10 +1,10 @@
-How do you produce a topological order with **DFS** (reversed post-order)? Give a complete Rust implementation that also reports a cycle.
+How do you put the nodes of a directed graph in a **topological order** (an order in which every edge points forwards) with DFS, by writing each node down when it finishes and reversing the list at the end (*reversed post-order*)? Give a complete Rust implementation that also reports a cycle.
 
 ---
 
 In DFS, a node *finishes* only after everything it points to has finished. So if you write each node down at the moment it finishes (its **post-order**), every node appears *after* all the nodes that depend on it. That is exactly backwards for a schedule, so you **reverse** the list at the end.
 
-The three states from cycle detection are reused: meeting an *in-progress* node means a cycle, so no order exists.
+The three states from cycle detection (unvisited, in progress, done) are reused: meeting an *in-progress* node means a cycle, so no order exists.
 
 ```rust
 #[derive(Clone, Copy, PartialEq)]

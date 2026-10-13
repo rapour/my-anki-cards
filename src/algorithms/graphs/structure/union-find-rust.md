@@ -1,4 +1,4 @@
-Write a **union-find** (disjoint-set union) structure in Rust, and use it to group records when matching pairs arrive one at a time.
+Write a **union-find** structure (also called disjoint-set union) in Rust: a structure that merges groups and tells you which group an item is in. Use it to group numbered records when matching pairs `(a, b)` arrive one at a time.
 
 ---
 

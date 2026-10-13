@@ -1,4 +1,4 @@
-Why would translating a virtual address be slow if the CPU had no TLB?
+Why would translating a virtual address into a physical one be slow if the CPU had no TLB (a small cache of recent translations inside the CPU)?
 
 ---
 

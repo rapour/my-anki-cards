@@ -1,4 +1,4 @@
-What are all the steps of a memory read, including a TLB miss and a cache miss?
+What are all the steps of a memory read, including a miss in the TLB (the CPU's small cache of address translations) and a miss in the data cache?
 
 ---
 

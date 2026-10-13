@@ -2,7 +2,7 @@ How can binary exponentiation compute the `n`-th Fibonacci number in `O(log n)`?
 
 ---
 
-One step of the Fibonacci rule can be written as a matrix times a pair of numbers:
+The Fibonacci numbers are `F(0) = 0`, `F(1) = 1` and `F(n) = F(n−1) + F(n−2)`. One step of this rule can be written as a matrix times a pair of numbers:
 
 `[F(n+1), F(n)] = [[1, 1], [1, 0]] · [F(n), F(n−1)]`
 

@@ -1,6 +1,8 @@
-Write a Rust function that returns the actual route between two currencies using DFS and a path stack.
+Exchange rates arrive as text such as `"USD:CAD:1.3,EUR:USD:1.1"`. Each quote `FROM:TO:RATE` means that 1 unit of `FROM` buys `RATE` units of `TO`. Write a Rust function that returns an actual route (the list of currencies) between two currencies. Use DFS and a *path list*: a `Vec` that holds the currencies on the route being followed right now. Push a currency when you step into it, and pop it when it turns out to be a dead end.
 
 ---
+
+The helper `build_graph` splits the text on `,` and `:` and builds a map from each currency to a list of `(neighbour, rate)` pairs. Every quote also adds its reverse, with rate `1 / rate`.
 
 `path` is the route from the start to the node we are standing on. We push on entry and pop when a node leads nowhere. When we reach the target we return `true` and leave `path` untouched, so it holds the finished route.
 

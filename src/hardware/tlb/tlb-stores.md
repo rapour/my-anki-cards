@@ -2,7 +2,7 @@ What does the TLB store: your data, or something else?
 
 ---
 
-Not your data. It stores recent **mappings from a page to its page frame** (copies of page table entries).
+Not your data. It stores recent **mappings from a page to its page frame** (copies of page table entries). A *page frame* is the block of RAM that holds the page.
 
 - TLB stands for Translation Lookaside Buffer. It is a small, very fast cache inside the CPU.
 - If the mapping is in the TLB, the CPU skips the page walk.

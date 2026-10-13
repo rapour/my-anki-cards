@@ -23,6 +23,14 @@ SELECT DISTINCT country FROM customers;
 - The first `---` outside a code block is the separator. Any later `---` in the answer is rendered as a horizontal rule.
 - The file name is never shown on the card. Name files in whatever way helps you find them.
 
+## Writing good cards
+
+- **Make every card stand on its own.** Cards are shuffled, so never refer to "the next card" or "the card on X". Put what is needed on the card itself.
+- **Define terms where they are used**, in the question or the answer. Name a data structure by what it holds, for example "a *parent map*: a map that stores, for each node, the node it was first reached from".
+- **State the problem in full.** If a card is based on a named problem, say what the problem asks. Do not rely on knowing it.
+- **One idea per card**, with the answer first and the details after.
+- **Test the code.** Rust examples should compile and run, with assertions that check them.
+
 ## Topics
 
 Folders under `src/` are topics, nested as deep as you like. `src/databases/sql/select-distinct.md` becomes:

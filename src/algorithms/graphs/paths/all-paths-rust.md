@@ -1,8 +1,10 @@
-Write a Rust function that returns every simple route between two currencies, using DFS backtracking with an on-path set.
+Exchange rates arrive as text such as `"USD:CAD:1.3,EUR:USD:1.1"`. Each quote `FROM:TO:RATE` means that 1 unit of `FROM` buys `RATE` units of `TO`. Write a Rust function that returns every *simple* route (a route that visits no currency twice) from one currency to another. Use DFS with backtracking and an *on-path set*: the set of currencies on the route being built right now, where each currency is removed again when you step back.
 
 ---
 
-Each call pushes the current node on entry and pops it on exit, so `path` and `on_path` always describe the route being built. When we reach the target we store a **clone** of the path (a copy), because `path` keeps changing afterwards.
+The helper `build_graph` splits the text on `,` and `:` and builds a map from each currency to a list of `(neighbour, rate)` pairs. Every quote also adds its reverse, with rate `1 / rate`.
+
+Each call pushes the current node on entry and pops it on exit, so `path` (the list) and `on_path` (the set) always describe the route being built. When we reach the target we store a **clone** of the path (a copy), because `path` keeps changing afterwards.
 
 ```rust
 use std::collections::{HashMap, HashSet};

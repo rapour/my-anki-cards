@@ -1,4 +1,4 @@
-Show two ways in Rust to run DFS on a chain of 200,000 nodes without overflowing the stack: an explicit stack, and a recursive version on a thread with a larger stack.
+Show two ways in Rust to run DFS on a chain of 200,000 nodes without overflowing the stack: an explicit stack (a `Vec` that you push to and pop from yourself), and a recursive version on a thread with a larger stack.
 
 ---
 

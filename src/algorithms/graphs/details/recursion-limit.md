@@ -12,6 +12,6 @@ Every time a function calls itself, the computer must remember where to return t
 
 **Fix 2: run the recursion on a thread with a bigger stack.** In Rust, `std::thread::Builder::new().stack_size(...)` lets you ask for hundreds of megabytes. The code stays simple, but you are still guessing how much is enough.
 
-**A subtlety of fix 1.** A simple loop that pushes all neighbours on the stack visits nodes in a different order than true recursive DFS, and it does not tell you when a node is *finished*. That is fine for "can I reach it?" and "which group is it in?". For cycle detection with three states, or for topological order by post-order, store `(node, index of the next neighbour to try)` on the stack, so the loop can tell when a node has used up all its neighbours.
+**A subtlety of fix 1.** A simple loop that pushes all neighbours on the stack visits nodes in a different order than true recursive DFS, and it does not tell you when a node is *finished* (all its neighbours explored). That is fine for "can I reach it?" and "which group is it in?". Algorithms that need the moment a node finishes, such as finding a cycle or putting tasks in order, store `(node, index of the next neighbour to try)` on the stack instead, so the loop can tell when a node has used up all its neighbours.
 
-**Rule of thumb:** if the input could contain a chain of thousands of nodes, prefer the explicit stack, and mention it to the interviewer.
+**Rule of thumb:** if the input could contain a chain of thousands of nodes, prefer the explicit stack.

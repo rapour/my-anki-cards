@@ -45,5 +45,5 @@ fn main() {
 }
 ```
 
-- For a composite modulus `m` with `gcd(a, m) = 1`, replace `p − 1` by **Euler's totient** `φ(m)`.
+- For a composite modulus `m` with `gcd(a, m) = 1`, replace `p − 1` by **Euler's totient** `φ(m)`, the count of numbers from 1 to `m` that share no factor with `m`.
 - The condition on `a` matters. If `p` divides `a`, the result is `0`, not `a^0 = 1`.

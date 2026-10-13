@@ -21,4 +21,4 @@ fn main() {
 - `checked_pow` returns `None`.
 - `wrapping_pow` wraps around modulo `2^bits`.
 - `overflowing_pow` returns the wrapped value and a flag.
-- There is **no** modular `pow` in the standard library. For `a^b mod m` you write your own (next cards).
+- There is **no** modular `pow` in the standard library. For `a^b mod m` you write your own: binary exponentiation with a remainder after every multiplication.

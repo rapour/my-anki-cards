@@ -8,7 +8,7 @@ Think of it as laying pieces in a row. Each piece is a whole gem (size 1) or a s
 
 Example, `M = 2`, `N = 4`: `1+1+1+1`, `1+1+2`, `1+2+1`, `2+1+1`, `2+2`, so `f(4) = 5`.
 
-`N` is too big to loop over, but this is a **linear recurrence**, so a matrix can do one step. Keep the last `M` values as the state `[f(i), f(i−1), ..., f(i−M+1)]`:
+`N` is too big to loop over, but this is a **linear recurrence** (each value is a sum of a few earlier values), so a matrix can do one step. Keep the last `M` values as the state `[f(i), f(i−1), ..., f(i−M+1)]`:
 
 - the new first entry is `f(i) + f(i−M+1)`,
 - every other entry is the old entry one place to the left.

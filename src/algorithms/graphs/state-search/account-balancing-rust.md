@@ -1,4 +1,4 @@
-Write a Rust function that returns the minimum number of transactions needed to settle a group's debts, given transactions `(from, to, amount)`. Use net balances and DFS backtracking.
+Each transaction is `(from, to, amount)`: person `from` gave `amount` to person `to`, who still owes it back. Write a Rust function that returns the minimum number of payments needed to settle all the debts. Work with each person's *net balance* (money given out minus money received) and use DFS backtracking: pass one person's whole balance to someone with the opposite sign, recurse on the rest, then undo the move.
 
 ---
 

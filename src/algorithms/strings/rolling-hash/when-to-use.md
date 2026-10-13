@@ -13,4 +13,4 @@ Look for **many comparisons of substrings** (equal? same as a prefix? a palindro
 | palindromes among substrings or prefixes | Codeforces 835D, Codeforces 7D |
 | a prefix that is also a suffix and appears inside | Codeforces 126B Password |
 
-**Hashing is probabilistic.** If you need a guaranteed answer, use KMP or the Z-function for pattern matching and suffix structures for distinct substrings. Hashing wins when it is simpler to write, and a tiny collision risk is acceptable.
+**Hashing is probabilistic.** If you need a guaranteed answer, use an exact method: KMP or the Z-function for pattern matching, or a suffix array or suffix automaton for distinct substrings. Hashing wins when it is simpler to write, and a tiny collision risk is acceptable.
