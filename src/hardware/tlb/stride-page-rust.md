@@ -13,7 +13,7 @@ let b: i64 = data
 
 ---
 
-`step_by(1024)` jumps 1024 × 4 bytes = 4096 bytes, exactly one page, on every read.
+`step_by(1024)` jumps 1024 × 4 bytes = 4096 bytes, exactly one page, on every read. A *page* is the 4 KB block of memory that the CPU's address translation works on, and a *cache line* is the 64-byte block that the CPU cache loads at a time.
 
 <div class="diagram">
 <svg viewBox="0 0 520 165" width="100%" style="max-width:520px" role="img" aria-label="Reading one value per page touches one of the 64 cache lines in each page">
@@ -222,6 +222,6 @@ let b: i64 = data
 </svg>
 </div>
 
-- Each read lands on a new page, so a TLB miss is likely.
+- Each read lands on a new page, so a TLB miss is likely: the translation for that page is probably not in the TLB, the CPU's small cache of address translations.
 - Each read uses only 1 of the 64 cache lines in its page. The other 63 are skipped, so memory bandwidth is wasted.
 - Reading one item after another uses all 16 `i32`s in a cache line and 1024 reads per page.

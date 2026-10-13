@@ -1,8 +1,8 @@
-A function must return a circle or a square, depending on a `bool`. Why does `-> impl Shape` fail, and what do you write instead?
+`Circle` and `Square` both implement the trait `Shape`. A function must return a circle or a square, depending on a `bool`. Why does `-> impl Shape` fail, and what do you write instead?
 
 ---
 
-`impl Shape` means *one* hidden concrete type, chosen at compile time (static dispatch). The two branches return different types, so the compiler reports: *`if` and `else` have incompatible types*.
+`impl Shape` means *one* hidden concrete type, chosen at compile time (static dispatch: the compiler picks the method). The two branches return different types, so the compiler reports: *`if` and `else` have incompatible types*.
 
 Return a trait object instead:
 

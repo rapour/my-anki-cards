@@ -1,8 +1,8 @@
-What is TLB thrashing?
+The TLB is the CPU's small cache of address translations. What is TLB thrashing?
 
 ---
 
-The program uses more pages than the TLB can hold. The TLB keeps throwing out mappings that the program needs again soon, so almost every access misses and needs a page walk.
+The program uses more pages than the TLB can hold. The TLB keeps throwing out mappings that the program needs again soon, so almost every access misses and needs a page walk (a slow lookup in the page table in RAM).
 
 <div class="diagram">
 <svg viewBox="0 0 520 190" width="100%" style="max-width:520px" role="img" aria-label="A toy TLB with 4 slots loops over 6 pages and misses on every access">

@@ -1,11 +1,11 @@
-How big is a `&dyn Shape` on a 64-bit machine, and what does it hold?
+How big is `&dyn Shape` (a reference to any value that implements the trait `Shape`) on a 64-bit machine, and what does it hold?
 
 ---
 
 **16 bytes**: two pointers.
 
 1. A **data pointer** to the value.
-2. A **vtable pointer** to the table of methods for that value's type.
+2. A **vtable pointer** to the *vtable*: the table of function addresses (the methods) for that value's type.
 
 ```rust
 assert_eq!(size_of::<&i32>(), 8);

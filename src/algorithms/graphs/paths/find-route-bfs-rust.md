@@ -1,6 +1,8 @@
-Write a Rust function that returns the route with the fewest conversions between two currencies using BFS and a parent map.
+Exchange rates arrive as text such as `"USD:CAD:1.3,EUR:USD:1.1"`. Each quote `FROM:TO:RATE` means that 1 unit of `FROM` buys `RATE` units of `TO`. Write a Rust function that returns the route (the list of currencies) with the fewest conversions between two currencies. Use BFS and a *parent map*: a `HashMap` that stores, for each currency, the currency it was first reached from. When the target is found, follow the parent map backwards to rebuild the route.
 
 ---
+
+The helper `build_graph` splits the text on `,` and `:` and builds a map from each currency to a list of `(neighbour, rate)` pairs. Every quote also adds its reverse, with rate `1 / rate`.
 
 The `parent` map answers "which node did we come from when we first found this one?". When the target comes off the queue, we follow parents backwards to the start and reverse the list.
 

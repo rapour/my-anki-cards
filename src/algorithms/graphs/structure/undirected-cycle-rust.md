@@ -1,4 +1,4 @@
-Write a Rust function that tells you whether an undirected graph contains a cycle, using DFS and the parent node.
+Write a Rust function that tells you whether an undirected graph contains a cycle. Use DFS and pass along each node's *parent* (the node you arrived from), so that the edge you came along is not mistaken for a cycle.
 
 ---
 
@@ -42,4 +42,4 @@ fn main() {
 }
 ```
 
-This version assumes at most one edge between any two nodes. See the concept card for what to change if edges can repeat.
+This version assumes at most one edge between any two nodes. If edges can repeat, remember the number of the edge you arrived by, not just the parent node, and skip only that edge.

@@ -31,7 +31,7 @@ fn first_three(n: u64, k: u64) -> u64 {
     let exponent = k as f64 * (n as f64).log10();
     // the part after the decimal point
     let fraction = exponent - exponent.floor();
-    // + 2 moves three digits in front of the point
+    // adding 2 moves three digits in front of the point
     10f64.powf(fraction + 2.0) as u64
 }
 

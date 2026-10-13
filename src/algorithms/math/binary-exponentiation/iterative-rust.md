@@ -41,4 +41,4 @@ Trace for `3¹³` (13 is `1101` in binary):
 
 - `result` starts at `1`, the "do nothing" value for multiplication.
 - This loop is usually faster than the recursive one: no function calls.
-- The square is skipped when no bits are left. The next card shows why.
+- The base is only squared while bits remain. Squaring it after the last bit is wasted work and can overflow a `u64` even though the answer fits (for `3⁴⁰` the unused last square would be `3⁶⁴`).

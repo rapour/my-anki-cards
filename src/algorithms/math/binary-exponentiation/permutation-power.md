@@ -2,7 +2,7 @@ How do you apply the same shuffle (permutation) `k` times, for a huge `k`, in `O
 
 ---
 
-Doing a shuffle twice is itself a shuffle: you can **combine** two permutations into one. Combining is associative, and "move nothing" is the identity, so binary exponentiation applies. Square the permutation, combine it into the result when the bit is set, and apply the final permutation **once**.
+A shuffle is stored as a *permutation* `p`: position `i` of the new row takes the item from position `p[i]` of the old row. Doing a shuffle twice is itself a shuffle: you can **combine** two permutations into one. Combining is associative, and "move nothing" is the identity, so binary exponentiation applies. Square the permutation, combine it into the result when the bit is set, and apply the final permutation **once**.
 
 `compose(a, b)[i] = a[b[i]]` combines two permutations in `O(n)`.
 

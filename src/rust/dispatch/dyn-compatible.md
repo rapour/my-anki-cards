@@ -2,9 +2,9 @@ Why does `Box<dyn Clone>` not compile?
 
 ---
 
-`Clone` is not **dyn compatible**, so the compiler cannot build a vtable for it. The error says: *the trait `Clone` is not dyn compatible*. (Older Rust called this *object safe*.)
+A trait can only be used as `dyn Trait` if it is **dyn compatible**, which means the compiler can build a *vtable* (a table of function addresses) for it. `Clone` is not dyn compatible. The error says: *the trait `Clone` is not dyn compatible*. (Older Rust called this *object safe*.)
 
-`clone(&self) -> Self` returns `Self`. Once the type is erased, the caller has no idea how big `Self` is, so it cannot make room for the result.
+`clone(&self) -> Self` returns `Self`, the concrete type. Behind a `dyn`, the concrete type is forgotten (*erased*), so the caller has no idea how big `Self` is and cannot make room for the result.
 
 Three things stop a trait from being dyn compatible:
 

@@ -2,10 +2,10 @@ What is the difference between static dispatch and dynamic dispatch in Rust?
 
 ---
 
-*Dispatch* means choosing which function runs when you call a trait method.
+A *trait* is a set of methods that different types can implement. *Dispatch* means choosing which function runs when you call a trait method.
 
 - **Static dispatch:** the compiler knows the concrete type, so it picks the function at compile time. You get it with generics and `impl Trait`.
-- **Dynamic dispatch:** the concrete type is only known at run time, so the program looks the function up in a vtable. You get it with `dyn Trait`.
+- **Dynamic dispatch:** the concrete type is only known at run time, so the program looks the function up in a *vtable*, a table of function addresses that the compiler builds for each type. You get it with `dyn Trait`.
 
 <div class="diagram">
 <svg viewBox="0 0 520 215" width="100%" style="max-width:520px" role="img" aria-label="Static dispatch jumps straight to the function; dynamic dispatch reads its address from the vtable first">

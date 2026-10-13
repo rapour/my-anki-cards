@@ -1,4 +1,4 @@
-Step by step, how does a memory read travel from the CPU through the TLB and the L1 cache, and what changes if the L1 cache misses?
+Step by step, how does a memory read travel from the CPU through the TLB (its small cache of address translations) and the L1 cache (its smallest data cache), and what changes if the L1 cache misses?
 
 ---
 
@@ -48,4 +48,4 @@ Step by step, how does a memory read travel from the CPU through the TLB and the
 4. **L1 miss:** the request goes on to main RAM. On a real CPU it tries the L2 and L3 caches first.
 5. RAM returns a 64-byte cache line. The L1 cache keeps a copy and the CPU gets its data. This is the slow path.
 
-**Remember:** the TLB gives the address, the cache gives the data. A TLB miss is a separate case, covered on the next card.
+**Remember:** the TLB gives the address, the cache gives the data. If the translation is not in the TLB (a *TLB miss*), the CPU first has to look it up in the page table in RAM, which is slower.

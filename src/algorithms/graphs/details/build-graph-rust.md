@@ -1,12 +1,14 @@
-Interview inputs arrive as text such as `"USD:CAD:1.3,EUR:USD:1.1"`. How do you turn that text into a graph in Rust, and why do currency problems add a reverse edge?
+Exchange rates arrive as text such as `"USD:CAD:1.3,EUR:USD:1.1"`, where each quote `FROM:TO:RATE` means that 1 unit of `FROM` buys `RATE` units of `TO`. How do you turn that text into a graph in Rust, and why do you add a reverse edge for each quote?
 
 ---
 
+In the graph, every currency is a node and every quote is an edge with the rate as its weight.
+
 Split the text twice: first on `,` to get each quote, then on `:` to get its parts. For each quote, store the neighbour in a map from node name to a list of `(neighbour, weight)` pairs. In Rust, `entry(key).or_default().push(...)` creates the empty list the first time a node is seen. (Python's equivalent is a `defaultdict(list)`.)
 
-**The reverse edge.** A quote "1 USD = 1.3 CAD" works both ways: 1 CAD buys `1 / 1.3` USD. Without the reverse edge, the search could only walk in the direction the quotes happen to be written, and you could not convert CAD to USD. So we store both `USD to CAD at 1.3` and `CAD to USD at 1/1.3`.
+**The reverse edge.** A quote "1 USD = 1.3 CAD" works both ways: 1 CAD buys `1 / 1.3` USD. Without the reverse edge, a search could only walk in the direction the quotes happen to be written, and you could not convert CAD to USD. So we store both `USD to CAD at 1.3` and `CAD to USD at 1/1.3`.
 
-For problems with truly one-way legs (such as shipping routes) you add only the forward edge.
+For problems with truly one-way legs (such as flights) you add only the forward edge.
 
 ```rust
 use std::collections::HashMap;

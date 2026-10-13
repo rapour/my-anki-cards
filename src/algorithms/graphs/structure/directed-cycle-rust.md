@@ -1,4 +1,4 @@
-Write a Rust function that tells you whether a directed graph contains a cycle, using DFS with three states.
+Write a Rust function that tells you whether a directed graph contains a cycle. Use DFS with three states per node: *unvisited*, *in progress* (on the route being followed right now) and *done* (fully explored).
 
 ---
 

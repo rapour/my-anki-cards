@@ -10,6 +10,6 @@ let shapes: Vec<Box<dyn Shape>> = vec![
 let total: f64 = shapes.iter().map(|s| s.area()).sum();
 ```
 
-- Each item is a `Box<dyn Shape>`: a pointer to the value on the heap plus a vtable pointer.
+- Each item is a `Box<dyn Shape>`: a pointer to the value on the heap plus a vtable pointer (the *vtable* is a table of function addresses for that value's type).
 - Each `area()` call goes through the vtable, so it runs the right method for each type.
 - With generics (`Vec<T>`) all items would have to be the same type.

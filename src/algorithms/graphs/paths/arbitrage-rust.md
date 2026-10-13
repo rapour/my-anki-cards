@@ -1,10 +1,10 @@
-Write a Rust function that detects currency arbitrage (a loop of conversions that returns more than you started with) using Bellman-Ford on `-ln(rate)`.
+Currencies are numbered 0, 1, 2, ... and each quote is a `(from, to, rate)` triple. Write a Rust function that detects *currency arbitrage*: a loop of conversions that ends with more money than you started with. Use Bellman-Ford (a shortest-path algorithm that allows negative weights) on the weights `-ln(rate)`.
 
 ---
 
 All distances start at zero, so every loop in the graph can be found no matter where it is. If the graph still improves in the final round (round number `n`), there must be a negative cycle. A `changed` flag lets us stop early with `false` as soon as a round improves nothing.
 
-Currencies are numbered: 0 = USD, 1 = EUR, 2 = GBP.
+The weight of a quote is `-ln(rate)`. Multiplying rates becomes adding weights, so a loop whose rates multiply to more than 1 has weights that add to less than 0 (a *negative cycle*). In the example, currencies are numbered 0 = USD, 1 = EUR, 2 = GBP.
 
 ```rust
 fn has_arbitrage(currencies: usize, quotes: &[(usize, usize, f64)]) -> bool {

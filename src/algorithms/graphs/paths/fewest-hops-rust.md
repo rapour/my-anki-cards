@@ -1,6 +1,8 @@
-Write a Rust function that returns the smallest number of conversions between two currencies using BFS and a distance map.
+Exchange rates arrive as text such as `"USD:CAD:1.3,EUR:USD:1.1"`. Each quote `FROM:TO:RATE` means that 1 unit of `FROM` buys `RATE` units of `TO`. Write a Rust function that returns the smallest number of conversions between two currencies. Use BFS and a *distance map*: a `HashMap` that stores, for every currency reached so far, how many conversions it took to get there.
 
 ---
+
+The helper `build_graph` splits the text on `,` and `:` and builds a map from each currency to a list of `(neighbour, rate)` pairs. Every quote also adds its reverse, with rate `1 / rate`.
 
 `distance` does two jobs at once: it records how many steps it took to reach a node, and, because a node is only inserted the first time we see it, it also acts as the visited set. A node never gets a second, longer distance.
 

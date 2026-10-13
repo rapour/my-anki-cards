@@ -4,9 +4,9 @@ What is a vtable?
 
 A table of function pointers that the compiler builds for each (type, trait) pair, such as `(Circle, Shape)`. It holds:
 
-1. How to drop the value.
+1. How to drop the value (run its cleanup code).
 2. The value's size.
-3. The value's alignment.
+3. The value's alignment (the spacing that its address must respect).
 4. One pointer for each trait method, such as `area`.
 
 <div class="diagram">

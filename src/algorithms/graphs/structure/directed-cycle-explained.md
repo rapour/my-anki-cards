@@ -1,8 +1,8 @@
-How do you detect a **cycle in a directed graph**, for example a circular dependency between CSV columns where A refers to B, B refers to C and C refers to A? Why does the simple "ignore the parent" trick from undirected graphs not work?
+How do you detect a **cycle in a directed graph**? Example: spreadsheet columns whose formulas refer to each other, where column A uses B, B uses C and C uses A. Why does the simple "skip the parent" trick used for undirected graphs not work?
 
 ---
 
-A **cycle** is a route that leads back to where it started. In the CSV problem a cycle means the columns depend on each other in a circle, so there is no valid order to process them.
+A **cycle** is a route that leads back to where it started. In the spreadsheet example a cycle means the columns depend on each other in a circle, so there is no valid order in which to calculate them.
 
 **Why a plain visited set is not enough.** In a directed graph you can legitimately reach the same node by two different routes without any cycle. Imagine A leads to B and to C, and both B and C lead to D. A search reaches D twice, but there is no loop, because you can never get *back* to A. So "I have seen this node before" does not prove a cycle.
 
@@ -24,6 +24,6 @@ Run DFS. When you step into a node, mark it *in progress*. For each neighbour:
 
 After all neighbours are processed, mark the node *done*.
 
-**Why the undirected trick fails.** For undirected graphs people say "a cycle exists if you meet a visited node that is not your parent". In a directed graph the edge is one-way, so meeting an already-visited node (for instance D in the example above) is perfectly normal. Only the in-progress state means a loop.
+**Why the undirected trick fails.** For undirected graphs people say "a cycle exists if you meet a visited node that is not the node you just came from (your *parent*)". In a directed graph the edge is one-way, so meeting an already-visited node (for instance D in the example above) is perfectly normal. Only the in-progress state means a loop.
 
 Cost: `O(V + E)`. Start a search from every unvisited node, since a cycle might sit in a part of the graph that your first start node cannot reach.

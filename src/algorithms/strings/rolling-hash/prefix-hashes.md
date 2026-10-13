@@ -7,7 +7,7 @@ Keep two arrays:
 - `prefix[i]` = the hash of the first `i` letters, so `prefix[0] = 0` and `prefix[i+1] = prefix[i] · p + s[i]`.
 - `power[i]` = `p^i mod m`.
 
-Both take `O(n)` to build. The method `get(l, r)` then returns the hash of `s[l..r)` in `O(1)` (the formula is on the next card).
+Both take `O(n)` to build. The method `get(l, r)` then returns the hash of `s[l..r)` in `O(1)` (the formula is `get(l, r) = prefix[r] − prefix[l] · power[r − l]`, modulo `m`).
 
 To test whether two substrings are equal, compare their hashes: `"abra"` at positions 0 and 7 of `"abracadabra"`.
 

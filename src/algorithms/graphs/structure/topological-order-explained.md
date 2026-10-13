@@ -1,10 +1,10 @@
-What is a **topological order**, when do you need one (for example validating CSV rows only after the rows they reference), and how does **Kahn's algorithm** produce it?
+What is a **topological order** of a directed graph, when do you need one (for example, calculating spreadsheet cells only after the cells they refer to), and how does **Kahn's algorithm** produce it?
 
 ---
 
 A **topological order** is a way of lining up the nodes of a directed graph so that every edge points forwards: if there is an edge from A to B, then A appears before B in the list. Think of getting dressed: socks must come before shoes, and trousers before the belt. The edges say "this must happen before that", and the topological order is one valid schedule.
 
-In the CSV problem: a row that refers to another row can only be checked once the row it points to has been loaded, so you process rows in a topological order of the "refers to" relationships.
+Example: a spreadsheet cell whose formula refers to other cells can only be calculated once those cells are done, so you calculate the cells in a topological order of the "refers to" relationships.
 
 It only exists if the graph has **no cycle**. If A needs B and B needs A, no valid order exists.
 
@@ -15,8 +15,8 @@ It only exists if the graph has **no cycle**. If A needs B and B needs A, no val
 3. Take a node from the queue and add it to the output order. It is now "done", so for each node it points to, reduce that node's in-degree by 1. If a neighbour's in-degree reaches 0, add it to the queue.
 4. Repeat until the queue is empty.
 
-**Free cycle detection:** if the output contains fewer than `V` nodes, some nodes never reached in-degree 0, because they are stuck waiting on each other, so there is a cycle.
+**Free cycle detection:** if the output contains fewer than `V` nodes (`V` is the number of nodes), some nodes never reached in-degree 0, because they are stuck waiting on each other, so there is a cycle.
 
-Cost: `O(V + E)`.
+Cost: `O(V + E)`, where `E` is the number of edges.
 
-The alternative is DFS: record each node when it *finishes* (post-order), then reverse that list.
+The alternative is DFS: record each node when it *finishes* (after everything it points to has finished, called *post-order*), then reverse that list.

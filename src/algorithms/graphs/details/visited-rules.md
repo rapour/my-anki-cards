@@ -2,6 +2,8 @@ Graph searches use a "visited" marker in three slightly different ways. What are
 
 ---
 
+A *visited* marker records that a node has already been seen, so a search does not explore it twice. A *component* is a group of nodes that can all reach each other. *Backtracking* means trying a choice and then undoing it.
+
 | Search | When to mark a node | When to unmark it | Why |
 |---|---|---|---|
 | **BFS** (any purpose) | The moment you **add it to the queue** | Never | Stops the same node being queued twice by different neighbours |
@@ -15,5 +17,3 @@ Graph searches use a "visited" marker in three slightly different ways. What are
 - *Reachability DFS that unmarks on the way back.* The search is now correct but can take exponential time, because every route is explored again and again rather than each node once.
 
 Directed cycle detection is the one extra case: it needs the three states (unvisited, in progress, done), where "in progress" is the temporary marker that is removed (becomes *done*) when you step back.
-
-The next two cards show the DFS and BFS mistakes in running code.

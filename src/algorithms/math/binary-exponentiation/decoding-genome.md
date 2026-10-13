@@ -4,7 +4,7 @@ Codeforces 222E *Decoding Genome*: count the valid DNA chains of length `n` (a h
 
 Turn the rules into a graph. Each nucleotide is a node, and there is an edge `a → b` when `b` is allowed to come right after `a`. Put it in a matrix `A` with `A[a][b] = 1` for an allowed pair.
 
-A chain of `n` nucleotides is a **walk with `n − 1` edges** that may start anywhere. So the answer is the sum of **all entries** of `A^(n−1)`.
+A chain of `n` nucleotides is a **walk** (a route that may visit the same node more than once) **with `n − 1` edges**, starting anywhere. So the answer is the sum of **all entries** of `A^(n−1)`.
 
 Example with three letters `a b c`, where `ab` and `cc` are forbidden: the rows of `A` are `a: [1, 0, 1]`, `b: [1, 1, 1]` and `c: [1, 1, 0]`.
 

@@ -1,4 +1,4 @@
-Write a Rust function that finds the best exchange rate from one currency to all others using logarithms and Bellman-Ford, and returns `None` if an arbitrage loop makes the answer unbounded.
+Quotes are one-way `(from, to, rate)` triples between numbered currencies. Write a Rust function that finds the best exchange rate (the largest product of rates) from one currency to every other one, using logarithms and Bellman-Ford (a shortest-path algorithm that allows negative weights). It returns `None` if an arbitrage loop (a loop of conversions that ends with more money than it started with) makes the answer unbounded.
 
 ---
 

@@ -17,7 +17,7 @@ The *visited* marker matters because graphs can contain loops. Without it you wo
 
 Because nodes are served in the order they joined, every node one step from the start is processed before any node two steps away. That is why BFS finds **the route with the fewest steps** (when every edge counts the same).
 
-It visits each node once and looks at each edge once, so it costs `O(V + E)`.
+It visits each node once and looks at each edge once, so it costs `O(V + E)`, where `V` is the number of nodes and `E` is the number of edges.
 
 ```rust
 use std::collections::VecDeque;

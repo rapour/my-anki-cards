@@ -1,8 +1,8 @@
-How do you return **the cycle itself** (for example "which CSV columns form the circular dependency?") instead of only saying that one exists? Give a complete Rust implementation.
+How do you return **the cycle itself** (for example, which spreadsheet columns refer to each other in a circle) instead of only saying that a directed graph has one? Give a complete Rust implementation.
 
 ---
 
-Keep a `stack`: the list of nodes on the route DFS is following right now, in order. When you meet a node that is *in progress*, you have found a loop, and that node is somewhere in the stack. The loop is everything in the stack **from that node onwards**, plus the node again to close the circle.
+Keep a `stack`: the list of nodes on the route DFS is following right now, in order. When you meet a node that is *in progress* (on the route being followed right now), you have found a loop, and that node is somewhere in the stack. The loop is everything in the stack **from that node onwards**, plus the node again to close the circle.
 
 For example, if the stack is `[0, 1, 2, 3]` and node 3 points back to node 1, the cycle is `[1, 2, 3, 1]`. Node 0 led into the loop but is not part of it, so it is left out.
 

@@ -1,4 +1,4 @@
-How do you list **every possible route** between two nodes? Why must you *undo* the visited marker when you step back (backtracking)? Use "list every route from USD to JPY" as the example.
+How do you list **every possible route** between two nodes of a graph, where a route is a list of nodes with an edge between each neighbouring pair? Why must you *undo* the visited marker when you step back (backtracking)?
 
 ---
 

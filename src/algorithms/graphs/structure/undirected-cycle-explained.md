@@ -18,6 +18,6 @@ Example: the path 0 - 1 - 2 has no cycle, because node 2 only sees its parent 1.
 
 **Watch out for repeated edges.** If two edges can join the same pair of nodes, that pair is itself a cycle, but skipping "the parent" would hide it. In that case track the edge number, not only the parent node.
 
-**Directed graphs are different.** There, meeting a visited node proves nothing, and you need the three states (see the directed cycle card).
+**Directed graphs are different.** There, meeting a visited node proves nothing. You need three states for each node: *unvisited*, *in progress* (on the route being followed right now) and *done*, and a cycle means meeting an in-progress node.
 
 Cost: `O(V + E)`.

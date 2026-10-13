@@ -1,9 +1,9 @@
-What happens on a TLB hit, and what happens on a TLB miss?
+The TLB is the CPU's small cache of address translations (page to page frame). What happens on a TLB hit, and what happens on a TLB miss?
 
 ---
 
 - **Hit:** the mapping is in the TLB, so the CPU goes straight to fetching the data.
-- **Miss:** the mapping is not there. The CPU does a page walk, saves the result in the TLB, then fetches the data.
+- **Miss:** the mapping is not there. The CPU does a *page walk* (it reads the page table in RAM to find the translation), saves the result in the TLB, then fetches the data.
 
 <div class="diagram">
 <svg viewBox="0 0 520 212" width="100%" style="max-width:520px" role="img" aria-label="On a TLB hit the frame is found at once; on a miss the CPU does a page walk and saves the result">

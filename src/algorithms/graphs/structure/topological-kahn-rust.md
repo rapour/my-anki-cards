@@ -1,4 +1,4 @@
-Write Kahn's algorithm in Rust: return a valid processing order for a directed graph, or `None` if there is a cycle.
+Write Kahn's algorithm in Rust: return a topological order of a directed graph (an order in which every edge points forwards, so each node comes before the nodes it points to), or `None` if there is a cycle.
 
 ---
 

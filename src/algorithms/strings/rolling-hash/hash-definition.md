@@ -61,6 +61,6 @@ fn main() {
 }
 ```
 
-- `p` is the base and `m` is the modulus (see the card on choosing them).
+- `p` is the *base*, a small number bigger than the number of different letters (31 for `a` to `z`), and `m` is the *modulus*, a large prime such as 1,000,000,007 that keeps the numbers small.
 - Adding a letter at the **right** end is just `h · p + c`. That is why this form suits belts, windows and stacks.
-- Some sources, such as the cp-algorithms article on string hashing, write the first letter at `p⁰` instead. This deck uses the order above.
+- Some sources, such as the cp-algorithms article on string hashing, write the first letter at `p⁰` instead. Both orders work, but the formula for the hash of a substring is different, so do not mix them.

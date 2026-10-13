@@ -1,4 +1,4 @@
-Write a Rust function that finds the cheapest shipping cost from one place to another using **at most** `max_legs` legs, using Bellman-Ford rounds (the LeetCode 787 pattern).
+Shipping legs are one-way `(from, to, cost)` triples between numbered places. Write a Rust function that finds the cheapest cost to ship from one place to another using **at most** `max_legs` legs. Use Bellman-Ford *rounds*, where round `i` finds the cheapest costs that use at most `i` legs. (This is LeetCode 787, *Cheapest Flights Within K Stops*.)
 
 ---
 

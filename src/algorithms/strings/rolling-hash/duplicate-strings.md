@@ -34,4 +34,4 @@ fn main() {
 }
 ```
 
-**In Rust you rarely need to do this by hand:** `HashMap<&str, Vec<usize>>` already hashes the whole string. The polynomial hash pays off when you need the hash of **substrings** or windows, as in the other cards.
+**In Rust you rarely need to do this by hand:** `HashMap<&str, Vec<usize>>` already hashes the whole string. The polynomial hash pays off when you need the hash of **substrings** or windows, for example when comparing substrings or sliding a window over a text.

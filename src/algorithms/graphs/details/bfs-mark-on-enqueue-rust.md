@@ -1,4 +1,4 @@
-Show in Rust why BFS should mark a node as visited when it is **added** to the queue, rather than when it is **taken out**.
+BFS keeps a *queue* of nodes waiting to be explored, and marks nodes as *visited* so that none is explored twice. Show in Rust why a node should be marked when it is **added** to the queue, rather than when it is **taken out**.
 
 ---
 

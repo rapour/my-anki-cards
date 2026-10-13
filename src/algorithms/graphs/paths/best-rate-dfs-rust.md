@@ -1,8 +1,10 @@
-Write a Rust function that finds the best (highest) exchange rate between two currencies by trying every simple route with DFS.
+Exchange rates arrive as text such as `"USD:CAD:1.3,EUR:USD:1.1"`. Each quote `FROM:TO:RATE` means that 1 unit of `FROM` buys `RATE` units of `TO`. Write a Rust function that finds the best (highest) exchange rate between two currencies by trying every simple route (a route that visits no currency twice) with DFS and backtracking.
 
 ---
 
-We carry the running product of rates as we walk. A node is added to `on_path` when we step into it and removed when we step back out, so each route is free to reuse nodes that belong to *other* routes. At the target we return the product, and each node keeps the best value reported by any of its branches.
+The helper `build_graph` splits the text on `,` and `:` and builds a map from each currency to a list of `(neighbour, rate)` pairs. Every quote also adds its reverse, with rate `1 / rate`.
+
+We carry the running product of rates as we walk. `on_path` is the set of currencies on the route being built right now: a node is added to it when we step into the node and removed when we step back out, so each route is free to reuse nodes that belong to *other* routes. At the target we return the product, and each node keeps the best value reported by any of its branches.
 
 ```rust
 use std::collections::{HashMap, HashSet};

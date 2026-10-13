@@ -1,14 +1,14 @@
-What standard **edge cases** should you handle in graph problems like currency conversion, and how do you write them in Rust? Include the floating-point warning.
+What standard **edge cases** should you handle when converting an amount between currencies through a chain of exchange quotes (a graph problem), and how do you write them in Rust? Include the floating-point warning.
 
 ---
 
-Decide each of these before you write the main loop. Interviewers often look for them.
+The setting: convert an amount from one currency to another through a chain of quotes such as `"USD:CAD:1.3,EUR:USD:1.1"` (each `FROM:TO:RATE` means 1 `FROM` buys `RATE` `TO`). Decide each of these before you write the main loop.
 
 | Situation | Typical answer |
 |---|---|
 | Source equals target (EUR to EUR) | Return the amount unchanged (rate 1.0), a route of length zero |
-| A currency that does not appear in the data | Return "not possible" (`None` in Rust, `-1` in many interview statements) |
-| Both currencies exist but are on separate islands (no route) | Return "not possible" |
+| A currency that does not appear in the data | Return "not possible" (`None` in Rust, or `-1` if the problem asks for a number) |
+| Both currencies exist but sit in separate groups, with no chain of quotes linking them | Return "not possible" |
 | Empty input | Every query is "not possible" |
 
 **Floating-point numbers are inexact.** `1.1 * 1.3` gives `1.4300000000000002`, not 1.43, and converting out and back can give `0.9999999999999999` instead of 1 (try `7.7 * (1.0 / 7.7)`). So:

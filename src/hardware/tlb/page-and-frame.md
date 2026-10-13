@@ -2,7 +2,7 @@ What is a page, and what is a page frame?
 
 ---
 
-A **page** is a fixed-size chunk of *virtual* memory, usually 4 KB on x86. A **page frame** is a chunk of the same size in *physical* RAM. The page table says which frame holds each page.
+A **page** is a fixed-size chunk of *virtual* memory (the addresses your program sees), usually 4 KB on x86. A **page frame** is a chunk of the same size in *physical* RAM. The **page table**, which the operating system keeps, says which frame holds each page.
 
 <div class="diagram">
 <svg viewBox="0 0 520 215" width="100%" style="max-width:520px" role="img" aria-label="Virtual pages are linked by the page table to page frames in RAM, in any order">
