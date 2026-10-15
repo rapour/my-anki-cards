@@ -49,6 +49,8 @@ The cards in `src/algorithms/math/binary-exponentiation/` and `src/algorithms/st
 
 The rolling hash cards use the form of the hash in which the degree-0 term comes last. The cp-algorithms article defines it the other way round, so those cards go beyond what the article covers.
 
+The cards in `src/algorithms/succinct/rise-rs/` describe how [rise-rs](https://github.com/AngeloSav/rise-rs) (Rossano Venturini and Angelo Savino, MIT licence) samples and encodes its lists, as of commit `0917123`. The constant names they quote come from its `src/config.rs`. The Rust examples are short versions written for the cards, not code copied from rise-rs.
+
 ## Getting the deck
 
 ### Latest build
