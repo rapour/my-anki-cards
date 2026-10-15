@@ -11,13 +11,19 @@ Counting the leading `0` as 0 number 0, the 0 number `h` comes just before the n
 3. Before `p` there are `h` 0s, so the other `p - h` bits are 1s, one per number. The first number whose high part is at least `h` is at index `i = p - h`.
 4. Scan forward from `i`, comparing whole numbers, until one is at least `y`.
 
+Example: the list 0, 3, 6, ..., 29997 (number `i` is `3i`), with `l = 1`. To find the first number that is at least 1801:
+
+- `h = 1801 >> 1 = 900` and `k = 900 / 512 = 1`. Start at the stored position of the 0 number 512, which is 854.
+- Walk `900 - 512 = 388` more 0s to reach the 0 number 900, at position 1500.
+- `i = 1500 - 900 = 600`. Number 600 is 1800, which is too small. Number 601 is 1803, the answer.
+
 <div class="diagram">
 <svg viewBox="0 0 640 248" width="100%" style="max-width:640px" role="img" aria-label="A stored position for every 512th 0 lets the search jump close to the target, then walk fewer than 512 0s.">
 <style>svg text{fill:currentColor;font-size:13px}svg .m{font-size:11px;opacity:.7}svg .k{fill:rgba(127,127,127,.14);stroke:currentColor;stroke-width:1.5}svg .g{fill:rgba(0,122,102,.18);stroke:#007A66;stroke-width:1.5}svg .r{fill:rgba(250,100,25,.18);stroke:#FA6419;stroke-width:1.5}svg .c{fill:rgba(127,127,127,.14);stroke:rgba(127,127,127,.6);stroke-width:1}svg .cr{fill:rgba(250,100,25,.55);stroke:#FA6419;stroke-width:1}svg .cg{fill:rgba(0,122,102,.55);stroke:#007A66;stroke-width:1}svg .ln{stroke:currentColor;stroke-width:1.5;fill:none}.nightMode svg .g,.night_mode svg .g{fill:rgba(20,193,160,.22);stroke:#14C1A0}.nightMode svg .cg,.night_mode svg .cg{fill:rgba(20,193,160,.6);stroke:#14C1A0}</style>
 <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="currentColor"/></marker></defs>
 <style>svg .tg{fill:#007A66}svg .to{fill:#FA6419}.nightMode svg .tg,.night_mode svg .tg{fill:#14C1A0}</style>
 <rect x="20" y="70" width="600" height="26" rx="2" class="c"/>
-<text x="20" y="26" text-anchor="start">high bits</text>
+<text x="20" y="26" text-anchor="start">high bits of 0, 3, 6, ..., 29997 (l = 1)</text>
 <line x1="120" y1="64" x2="120" y2="102" stroke="#FA6419" stroke-width="3"/>
 <text x="120" y="58" text-anchor="middle" class="m">0 number 512</text>
 <line x1="260" y1="64" x2="260" y2="102" stroke="#FA6419" stroke-width="3"/>
@@ -26,16 +32,16 @@ Counting the leading `0` as 0 number 0, the 0 number `h` comes just before the n
 <text x="400" y="58" text-anchor="middle" class="m">1536</text>
 <line x1="540" y1="64" x2="540" y2="102" stroke="#FA6419" stroke-width="3"/>
 <text x="540" y="58" text-anchor="middle" class="m">2048</text>
-<line x1="336" y1="64" x2="336" y2="102" class="ln" stroke-width="3"/>
-<text x="336" y="44" text-anchor="middle" class="tg">0 number h = 1300</text>
-<line x1="260" y1="114" x2="336" y2="114" class="ln"/>
-<line x1="260" y1="109" x2="260" y2="119" class="ln"/>
-<line x1="336" y1="109" x2="336" y2="119" class="ln"/>
-<text x="348" y="118" text-anchor="start" class="m">walk 1300 - 1024 = 276 more 0s</text>
-<rect x="150" y="186" width="220" height="30" rx="6" class="r"/>
-<text x="260.0" y="205.5" text-anchor="middle">zero_samples[1]: stored position</text>
-<line x1="260" y1="186" x2="260" y2="122" class="ln" marker-end="url(#ah)"/>
-<text x="320" y="238" text-anchor="middle" class="m">first index with high part &gt;= h = position - h</text>
+<line x1="226" y1="64" x2="226" y2="102" class="ln" stroke-width="3"/>
+<text x="226" y="44" text-anchor="middle" class="tg">0 number 900, at 1500</text>
+<line x1="120" y1="114" x2="226" y2="114" class="ln"/>
+<line x1="120" y1="109" x2="120" y2="119" class="ln"/>
+<line x1="226" y1="109" x2="226" y2="119" class="ln"/>
+<text x="238" y="118" text-anchor="start" class="m">walk 900 - 512 = 388 more 0s</text>
+<rect x="10" y="186" width="220" height="30" rx="6" class="r"/>
+<text x="120.0" y="205.5" text-anchor="middle">zero_samples[0] = 854</text>
+<line x1="120" y1="186" x2="120" y2="122" class="ln" marker-end="url(#ah)"/>
+<text x="320" y="238" text-anchor="middle" class="m">i = 1500 - 900 = 600: number 600 is 1800 (too small), number 601 is 1803</text>
 </svg>
 </div>
 
@@ -108,6 +114,15 @@ fn next_geq(ef: &EliasFano, y: u64) -> Option<usize> {
 }
 
 fn main() {
+    // 0, 3, 6, ..., 29997 and y = 1801: h = 900, start at the
+    // stored 854, walk 388 0s to 1500, then i = 600
+    let threes: Vec<u64> = (0..10_000).map(|i| 3 * i).collect();
+    let ef = encode(&threes);
+    assert_eq!(ef.zero_samples[0], 854);
+    assert_eq!(skip_zeros(&ef.high, 854, 388), 1500);
+    // number 600 is 1800 < 1801, number 601 is 1803
+    assert_eq!(next_geq(&ef, 1801), Some(601));
+
     // 10,000 sorted pseudo-random numbers, gaps of 0 to 127
     let mut x: u64 = 9;
     let mut v = 0;

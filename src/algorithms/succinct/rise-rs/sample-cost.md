@@ -21,7 +21,9 @@ Example: one million numbers below 2^32.
 | 3906 positions of 1s, 21 bits each | 82,026 |
 | **total** | **14,173,612** |
 
-That is about 14.17 bits per number, instead of 32, and the stored positions are 0.88% of it.
+That is about 14.17 bits per number, instead of 32, and the stored positions are 0.88% of it. Here `w = 21`, because the high bits are 2,048,578 long, which is more than 2^20 = 1,048,576 and at most 2^21 = 2,097,152.
+
+A denser list pays about the same per number, but it is a larger share. One million numbers below 4,000,000 have `l = 2` and take about 4.12 bits per number. They need 1953 positions of 0s and 3906 of 1s, still 21 bits each and about 0.12 bits per number, which is now about 3% of the total.
 
 ```rust
 /// floor(log2(v)), and 0 for v = 0, like rise-rs's msb()
@@ -66,5 +68,13 @@ fn main() {
     assert_eq!(total, 14_173_612);
     let share = (zeros + ones) as f64 / total as f64;
     assert!((share - 0.0088).abs() < 0.0001);
+
+    // a denser list: one million numbers below 4,000,000
+    let (low, high, zeros, ones) = ef_bits(4_000_000, 1_000_000);
+    assert_eq!((low, high), (2_000_000, 2_000_002));
+    assert_eq!((zeros, ones), (1953 * 21, 3906 * 21));
+    let total = low + high + zeros + ones;
+    let share = (zeros + ones) as f64 / total as f64;
+    assert!((share - 0.0298).abs() < 0.0001);
 }
 ```

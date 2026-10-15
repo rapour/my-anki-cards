@@ -11,12 +11,15 @@ Jump to the start of `y`'s bucket with **select0**, then scan forward.
 3. Before position `p` there are `h - 1` zeros, so the other `p - (h - 1)` bits are 1s, one per number. Start at index `i = p - (h - 1)`.
 4. Read numbers from index `i` onwards until one is at least `y`.
 
-There are at least `n` buckets, so a bucket holds at most one number on average and the scan is short. Search engines use this search to intersect two sorted lists of document ids: each list jumps forward to the first id that is at least the other list's current id.
+There are at least `n` buckets, so a bucket holds at most one number on average and the scan is short.
 
 Example: 3, 4, 7, 13, 14, 15, 21, 43 with `l = 2` and high bits `10110011100100000100`.
 
 - For `y = 8`: `h = 2`. The 0 number 1 is at position 4, so `i = 4 - 1 = 3`.
 - Index 3 holds 13, and 13 ≥ 8, so the answer is index 3.
+- For `y = 14`: `h = 3`. The 0 number 2 is at position 5, so `i = 5 - 2 = 3`. Index 3 holds 13, which is too small, so the scan moves on: index 4 holds 14, the answer.
+
+Search engines use this search to find the documents that contain two words. Each word has a sorted list of the ids of the documents that contain it. For each id of the first list, `next_geq` on the second list finds the first id that is at least as large; when it is equal, both words are in that document. Taking 4, 14, 22, 43 as the first list, `next_geq` on the list above finds 4, 14, 43 and 43, so the common ids are 4, 14 and 43.
 
 ```rust
 struct EliasFano {
@@ -74,6 +77,8 @@ fn main() {
 
     // 13 is the first number >= 8
     assert_eq!(next_geq(&ef, 8), Some(3));
+    // the scan passes 13 to reach 14
+    assert_eq!(next_geq(&ef, 14), Some(4));
     // an exact match
     assert_eq!(next_geq(&ef, 21), Some(6));
     assert_eq!(next_geq(&ef, 0), Some(0));
@@ -85,5 +90,17 @@ fn main() {
         let want = values.iter().position(|&v| v >= y);
         assert_eq!(next_geq(&ef, y), want, "y = {y}");
     }
+
+    // ids in both lists: next_geq lands exactly on them
+    let first = [4, 14, 22, 43];
+    let mut common = Vec::new();
+    for y in first {
+        if let Some(i) = next_geq(&ef, y) {
+            if values[i] == y {
+                common.push(y);
+            }
+        }
+    }
+    assert_eq!(common, vec![4, 14, 43]);
 }
 ```

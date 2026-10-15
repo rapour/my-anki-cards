@@ -14,6 +14,8 @@ Example: 3, 4, 7, 13, 14, 15, 21, 43 below `u = 44`, so `l = 2`, and the high bi
 - `high = 11 - 6 = 5`, and `low[6] = 1`.
 - `(5 << 2) | 1 = 21`.
 
+Index 7 crosses empty buckets. Its `1` is at position 17, so `high = 17 - 7 = 10`, and `(10 << 2) | 3 = 43`. The 0s at positions 13 to 16 close the empty buckets 6 to 9, which is why the high part jumps from 5 to 10.
+
 The cost is one select. With a small extra index (stored positions of every few hundred 1s, plus a short scan), select is fast, close to constant time in practice. The code below scans instead, to keep it short.
 
 ```rust
@@ -55,6 +57,9 @@ fn main() {
     // and (5 << 2) | 1 = 21
     assert_eq!(select1(&ef.high, 6), 11);
     assert_eq!(access(&ef, 6), 21);
+    // index 7: its 1 is at 17, high = 10, and (10 << 2) | 3 = 43
+    assert_eq!(select1(&ef.high, 7), 17);
+    assert_eq!(access(&ef, 7), 43);
 
     for (i, &x) in values.iter().enumerate() {
         assert_eq!(access(&ef, i), x);

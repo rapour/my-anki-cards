@@ -9,6 +9,13 @@ Store the position of every 256th 1, jump there, then skip whole 64-bit words us
 3. Skip whole words: while a word holds no more 1s than are left to pass, subtract its `count_ones` and move to the next word.
 4. The answer is inside the current word. Find it there with a *select in a word*: clear the lowest 1 the right number of times, then take `trailing_zeros`.
 
+Example: a bit array in which every 4th bit is 1, so the 1 number `k` is at `4k` and each word holds 16 1s. For `select1(600)`:
+
+- `600 / 256 = 2`, so start at `samples[2] = 2048`, the position of the 1 number 512. There are `600 % 256 = 88` 1s left to pass.
+- 2048 is the first bit of word 32. Words 32 to 36 hold 16 1s each, so skip all five: `88 - 5 · 16 = 8` left.
+- Word 37 covers bits 2368 to 2431, and its 1 number 8 is at bit 32 of the word.
+- `select1(600) = 37 · 64 + 32 = 2400`. Check: `4 · 600 = 2400`.
+
 `count_ones` (`popcnt` on x86) and `trailing_zeros` (`tzcnt`) are single CPU instructions, so each skipped word costs very little.
 
 The scan stays short when the 1s are spread fairly evenly. A long run of 0s between two samples makes it slower. To keep the worst case short, some libraries store every position in such sparse stretches.
@@ -74,6 +81,13 @@ impl SelectBits {
 }
 
 fn main() {
+    // every 4th bit is 1: start at samples[2] = 2048, skip
+    // words 32 to 36, and find the 1 number 8 at bit 32 of word 37
+    let every4: Vec<bool> = (0..4096).map(|i| i % 4 == 0).collect();
+    let s = SelectBits::new(&every4);
+    assert_eq!(s.samples[2], 2048);
+    assert_eq!(s.select1(600), 37 * 64 + 32);
+
     // pseudo-random bits, about 1 in 8 is 1
     let mut x: u64 = 7;
     let bits: Vec<bool> = (0..20_000)

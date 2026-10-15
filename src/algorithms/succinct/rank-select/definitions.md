@@ -5,7 +5,7 @@ On a bit array, what do **rank** and **select** return? Work them out on `011010
 - **rank1(p)**: how many 1s are in positions `0` to `p - 1`, that is, before `p`. **rank0(p)** counts the 0s, so `rank0(p) = p - rank1(p)`.
 - **select1(k)**: the position of the 1 number `k`, counting from 0. **select0(k)** does the same for 0s.
 
-They undo each other: `rank1(select1(k)) = k`.
+They undo each other: `rank1(select1(k)) = k`. In the example below, `select1(2) = 4` and `rank1(4) = 2`.
 
 | position | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 |---|---|---|---|---|---|---|---|---|

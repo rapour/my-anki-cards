@@ -12,6 +12,8 @@ Because the list is sorted, the high parts never go down, so counting 1s and 0s 
 
 Example: 3, 4, 7, 13, 14, 15, 21, 43 with `u = 44`, so `l = floor(log2(5.5)) = 2`.
 
+Take 13, number 3 in the list. In binary it is `1101`, so its high part is `13 >> 2 = 3` (`11`) and its low part is `13 & 3 = 1` (`01`). Its `1` goes to position `3 + 3 = 6`.
+
 <div class="diagram">
 <svg viewBox="0 0 640 260" width="100%" style="max-width:640px" role="img" aria-label="Each number is split into a high part and a low part. The low parts are stored as they are. The high parts become a bit array with one 1 per number and one 0 closing each bucket.">
 <style>svg text{fill:currentColor;font-size:13px}svg .m{font-size:11px;opacity:.7}svg .k{fill:rgba(127,127,127,.14);stroke:currentColor;stroke-width:1.5}svg .g{fill:rgba(0,122,102,.18);stroke:#007A66;stroke-width:1.5}svg .r{fill:rgba(250,100,25,.18);stroke:#FA6419;stroke-width:1.5}svg .c{fill:rgba(127,127,127,.14);stroke:rgba(127,127,127,.6);stroke-width:1}svg .cr{fill:rgba(250,100,25,.55);stroke:#FA6419;stroke-width:1}svg .cg{fill:rgba(0,122,102,.55);stroke:#007A66;stroke-width:1}svg .ln{stroke:currentColor;stroke-width:1.5;fill:none}.nightMode svg .g,.night_mode svg .g{fill:rgba(20,193,160,.22);stroke:#14C1A0}.nightMode svg .cg,.night_mode svg .cg{fill:rgba(20,193,160,.6);stroke:#14C1A0}</style>
@@ -187,6 +189,11 @@ fn encode(values: &[u64], u: u64) -> EliasFano {
     EliasFano { l, low, high }
 }
 
+/// The bits as text, for example "1011".
+fn text(bits: &[bool]) -> String {
+    bits.iter().map(|&b| if b { '1' } else { '0' }).collect()
+}
+
 fn main() {
     let values = [3, 4, 7, 13, 14, 15, 21, 43];
     let ef = encode(&values, 44);
@@ -195,14 +202,19 @@ fn main() {
     assert_eq!(ef.l, 2);
     assert_eq!(ef.low, vec![3, 0, 3, 1, 2, 3, 1, 3]);
 
-    let bits: String =
-        ef.high.iter().map(|&b| if b { '1' } else { '0' }).collect();
-    assert_eq!(bits, "10110011100100000100");
+    assert_eq!(text(&ef.high), "10110011100100000100");
+    // 13 is number 3 with high part 3, so its 1 is at 3 + 3 = 6
+    assert!(ef.high[6]);
 
     // 20 high bits + 8 * 2 low bits = 36 bits,
     // against 8 * 6 = 48 bits for plain 6-bit numbers
     assert_eq!(ef.high.len() + ef.low.len() * ef.l as usize, 36);
+
+    // repeats: 2, 2, 5 below 8 have l = 1 and high parts 1, 1, 2
+    let ef = encode(&[2, 2, 5], 8);
+    assert_eq!(text(&ef.high), "01101000");
+    assert_eq!(ef.low, vec![0, 0, 1]);
 }
 ```
 
-Repeated numbers are allowed: they share a bucket, and each still gets its own `1`.
+Repeated numbers are allowed: they share a bucket, and each still gets its own `1`. For 2, 2, 5 below `u = 8`, `l = 1`, the high parts are 1, 1 and 2, and the high bits are `01101000`: bucket 0 is empty, bucket 1 holds two numbers and bucket 2 holds one.

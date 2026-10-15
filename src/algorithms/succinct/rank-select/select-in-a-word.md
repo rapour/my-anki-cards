@@ -9,6 +9,18 @@ Treat the word as 8 small numbers of one byte each and work on all 8 at once. Th
 3. **Find the byte that holds the answer**: put `k + 128` in every byte and subtract the totals. A byte keeps its top bit exactly when its total is at most `k`. Totals only grow from byte to byte, so the number of bytes that keep it is the index of the answer's byte. Nothing borrows across bytes, because `128 + k - total` stays above 0.
 4. **Finish inside that one byte.** rise-rs looks the answer up in a table of 2048 entries (256 byte values × 8 possible `k`). The code below clears at most 7 lowest 1s instead.
 
+Example: `word = 0x0F00_0103`, with 1s at positions 0, 1, 8, 24, 25, 26 and 27, and `k = 4`.
+
+| byte | 0 | 1 | 2 | 3 | 4 to 7 |
+|---|---|---|---|---|---|
+| 1s in the byte | 2 | 1 | 0 | 4 | 0 |
+| running total | 2 | 3 | 3 | 7 | 7 |
+| total at most 4? | yes | yes | yes | no | no |
+
+- Three bytes have a total of at most 4, so the answer is in byte 3, which starts at bit `3 · 8 = 24`.
+- The bytes before it hold 3 1s, so inside byte 3 (`0000_1111`) the answer is its 1 number `4 - 3 = 1`, at bit 1.
+- The answer is `24 + 1 = 25`. Check: the 1s in order are at 0, 1, 8, 24, 25, so the 1 number 4 is at 25.
+
 On x86 CPUs with the BMI2 instructions there is a shorter way: `_pdep_u64(1 << k, word).trailing_zeros()`. `pdep` moves bit `k` of its first argument onto the position of the `k`-th 1 of `word`. It is slow on some older AMD CPUs, so portable code often uses the byte method.
 
 ```rust
@@ -54,6 +66,9 @@ fn main() {
     assert_eq!(select_in_word(0b1011_0000, 2), 7);
     assert_eq!(select_in_word(1 << 63, 0), 63);
     assert_eq!(select_in_word(u64::MAX, 40), 40);
+    // bytes hold 2, 1, 0, 4 1s: totals 2, 3, 3, 7, so byte 3,
+    // and its 1 number 4 - 3 = 1 is at bit 24 + 1
+    assert_eq!(select_in_word(0x0F00_0103, 4), 25);
 
     // compare with a bit-by-bit search on pseudo-random words
     let mut x: u64 = 3;

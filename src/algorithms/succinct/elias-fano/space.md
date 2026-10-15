@@ -13,7 +13,13 @@ Per number that is `l + 1 + u / (n · 2^l)` bits. Write `u / n = 2^(l + f)`, whe
 
 **How close to the best possible?** There are "u choose n" different sets of `n` numbers below `u`, so any encoding needs at least `log2(u choose n)` bits to tell them apart. When `n` is much smaller than `u`, that is about `log2(u / n) + 1.44` bits per number, so Elias-Fano then uses at most about half a bit per number more than the minimum.
 
-Example: one million sorted numbers below 2^32, such as the ids of the documents that contain one word in a search engine. Elias-Fano takes about 14.05 bits each, instead of 32.
+Example: one million sorted numbers below 2^32, such as the ids of the documents that contain one word in a search engine.
+
+- `u / n ≈ 4295 ≈ 2^12.07`, so `l = 12` and `f ≈ 0.07`.
+- Low parts: 12 bits per number.
+- High bits: 1 bit for each number's `1`, plus `2^32 / 2^12 = 1,048,576` 0s shared by a million numbers, about 1.05 bits each.
+- Total: about 14.05 bits per number, under the bound `12.07 + 2 = 14.07`, instead of 32 for a plain `u32`.
+- The minimum, `log2(u choose n)`, is about 13.51 bits per number, so Elias-Fano uses 0.54 bits per number more.
 
 ```rust
 /// Bits used by Elias-Fano for n sorted numbers below u.

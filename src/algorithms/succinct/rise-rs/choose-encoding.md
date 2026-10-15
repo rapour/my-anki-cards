@@ -10,6 +10,14 @@ It works out the size in bits of each option from `u` and `n`, and takes the sma
 
 Rule of thumb: the bitmap wins when a part is **dense**, holding more than about one number in four from its range. A bitmap costs `u / n` bits per number and Elias-Fano about `2 + log2(u / n)`, and the two meet at `u / n = 4`.
 
+| Part | Bitmap bits | Elias-Fano bits | Choice |
+|---|---|---|---|
+| `u = 1000`, `n = 1000`: every number 0 to 999 | not needed | not needed | nothing at all |
+| `u = 1000`, `n = 900` | 1,040 | 1,946 | bitmap |
+| `u = 100,000`, `n = 26,000` | 104,642 | 105,368 | bitmap |
+| `u = 100,000`, `n = 25,000`: exactly 1 in 4 | 104,574 | 102,322 | Elias-Fano |
+| `u = 1,000,000`, `n = 1000` | 1,019,590 | 12,027 | Elias-Fano |
+
 How the parts are made: rise-rs either cuts fixed blocks of 128 numbers, or searches for the cut points that make the total size close to the smallest. Each part stores its numbers as offsets from where it starts, so `u` is the width of that part's range, not of the whole list. Dense stretches of a list can then be bitmaps while sparse stretches stay Elias-Fano.
 
 ```rust
@@ -68,7 +76,16 @@ fn main() {
     assert_eq!(ef_bits(1000, 900), 1946);
     // sparse: about 12 bits per number
     assert_eq!(choose(1_000_000, 1000), Encoding::EliasFano);
+    assert_eq!(bitmap_bits(1_000_000, 1000), 1_019_590);
     assert_eq!(ef_bits(1_000_000, 1000), 12_027);
+
+    // either side of one number in four
+    assert_eq!(bitmap_bits(100_000, 26_000), 104_642);
+    assert_eq!(ef_bits(100_000, 26_000), 105_368);
+    assert_eq!(choose(100_000, 26_000), Encoding::Bitmap);
+    assert_eq!(bitmap_bits(100_000, 25_000), 104_574);
+    assert_eq!(ef_bits(100_000, 25_000), 102_322);
+    assert_eq!(choose(100_000, 25_000), Encoding::EliasFano);
 
     // the switch happens at about one number in four
     let u = 1_000_000;

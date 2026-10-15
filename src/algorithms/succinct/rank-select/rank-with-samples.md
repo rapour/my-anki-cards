@@ -60,6 +60,13 @@ Store one count every 512 bits, and count the rest with `count_ones`.
 </svg>
 </div>
 
+Example: a bit array in which every 4th bit is 1 (positions 0, 4, 8, ...), so each word holds 16 1s and each block 128. For `p = 1300`:
+
+- `p` is in block `1300 / 512 = 2`, and `s[2] = 2 · 128 = 256`.
+- Block 2 starts at word 16, and `p` is in word `1300 / 64 = 20`. Words 16 to 19 are whole: `4 · 16 = 64`.
+- Word 20 starts at bit 1280. Below `p` it holds bits 1280 to 1299, with 1s at 1280, 1284, 1288, 1292 and 1296: 5.
+- `rank1(1300) = 256 + 64 + 5 = 325`. Check: the 1s before 1300 are 0, 4, ..., 1296, which is `1300 / 4 = 325`.
+
 The extra space is one count per 512 bits. With 32-bit counts that is 32 / 512, or 6.25% more space. The Rust search engine library rise-rs uses this layout (512-bit blocks) in its bitmap encoding of dense lists. It stores each count in `ceil(log2(n + 1))` bits, where `n` is the number of 1s.
 
 ```rust
@@ -112,6 +119,13 @@ impl RankBits {
 }
 
 fn main() {
+    // every 4th bit is 1: s[2] = 256, 4 whole words of 16 1s,
+    // and 5 1s in word 20 below bit 1300
+    let every4: Vec<bool> = (0..2048).map(|i| i % 4 == 0).collect();
+    let r = RankBits::new(&every4);
+    assert_eq!(r.samples[2], 256);
+    assert_eq!(r.rank1(1300), 256 + 64 + 5);
+
     // pseudo-random bits, about 3 in 8 are 1
     let mut x: u64 = 1;
     let bits: Vec<bool> = (0..5000)

@@ -8,6 +8,21 @@ Walk the 1s of the high bits one 64-bit word at a time with two bit tricks. When
 - `word &= word - 1` clears that lowest `1`, so the next call finds the following one. Subtracting 1 turns the lowest `1` into `0` and the `0`s below it into `1`s, so the AND keeps only the bits above it: `1011_0100 - 1 = 1011_0011`, and `1011_0100 & 1011_0011 = 1011_0000`.
 - When the word becomes 0, load the next word.
 
+Example: 3, 4, 7, 13, 14, 15, 21, 43 with `l = 2`. Their high bits fit in one word, `0x209CD`, with 1s at positions 0, 2, 3, 6, 7, 8, 11 and 17.
+
+| i | `1` at | high = position - i | low | number |
+|---|---|---|---|---|
+| 0 | 0 | 0 | 3 | 3 |
+| 1 | 2 | 1 | 0 | 4 |
+| 2 | 3 | 1 | 3 | 7 |
+| 3 | 6 | 3 | 1 | 13 |
+| 4 | 7 | 3 | 2 | 14 |
+| 5 | 8 | 3 | 3 | 15 |
+| 6 | 11 | 5 | 1 | 21 |
+| 7 | 17 | 10 | 3 | 43 |
+
+After number 0, `word &= word - 1` turns the low bits `1100_1101` into `1100_1100`, so the next `trailing_zeros` returns 2.
+
 Each number costs a few instructions and needs no select (no search for the k-th 1). The Rust search engine library rise-rs reads its lists this way, in `UnaryEnumerator::next_one`.
 
 ```rust
@@ -69,6 +84,8 @@ fn encode(values: &[u64], l: u32) -> (Vec<u64>, Vec<u64>) {
 fn main() {
     let values = [3u64, 4, 7, 13, 14, 15, 21, 43];
     let (high_words, low) = encode(&values, 2);
+    // 1s at 0, 2, 3, 6, 7, 8, 11 and 17
+    assert_eq!(high_words, vec![0x209CD]);
     assert_eq!(decode(&high_words, &low, 2), values);
 
     // a longer list that spans many words
