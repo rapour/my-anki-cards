@@ -1,4 +1,4 @@
-How does a wavelet tree count the elements at positions `l` to `r - 1` whose values lie between `a` and `b`? And how does that count the **points inside a rectangle**?
+How does a wavelet tree count the elements at positions `l` to `r - 1` whose values lie between `a` and `b`?
 
 ---
 
@@ -170,7 +170,7 @@ A position range `[l, r)` means positions `l` to `r - 1`, and node labels such a
 </svg>
 </div>
 
-**Points in a rectangle.** Sort `n` points by `x` and store their `y` values in that order. A rectangle `x1..x2 × y1..y2` becomes a position range `[l, r)` (two binary searches on the sorted `x` values) and a value range `y1..y2`. One count answers it in `O(log n)` steps, with about `n log n` bits of space. The example sequence is the 8 points (1, 5), (2, 2), (3, 7), (4, 2), (5, 4), (6, 1), (7, 2), (8, 6). The rectangle `x` from 2 to 7, `y` from 2 to 5 holds 4 of them.
+This is the query that counts points inside a rectangle. Sort the points by `x`, store their `y` values in that order, and the rectangle becomes a position range (from `x`) and a value range (from `y`).
 
 ```rust
 /// A wavelet tree over the values lo..=hi.
@@ -252,30 +252,15 @@ fn main() {
     // 2, 7, 2, 4, 1, 2: the values 2 to 5 are 2, 2, 4, 2
     assert_eq!(tree.count(1, 7, 2, 5), 4);
 
-    // the points (1, 5), (2, 2), (3, 7), ..., (8, 6), sorted by x;
-    // the tree stores their y values
-    let xs: Vec<u32> = (1..=8).collect();
-    let ys: Vec<u32> = seq.to_vec();
-    let tree = WaveletTree::new(&ys, 0, 7);
-    let in_rect = |x1: u32, x2: u32, y1: u32, y2: u32| {
-        // positions of the points with x1 <= x <= x2
-        let l = xs.partition_point(|&x| x < x1);
-        let r = xs.partition_point(|&x| x <= x2);
-        tree.count(l, r, y1, y2)
-    };
-    assert_eq!(in_rect(2, 7, 2, 5), 4);
-
-    // every rectangle, against checking each point
-    for (x1, x2) in [(0, 9), (2, 7), (3, 3), (5, 8)] {
-        for y1 in 0..8 {
-            for y2 in y1..8 {
-                let want = xs
-                    .iter()
-                    .zip(&ys)
-                    .filter(|(x, _)| (x1..=x2).contains(*x))
-                    .filter(|(_, y)| (y1..=y2).contains(*y))
-                    .count();
-                assert_eq!(in_rect(x1, x2, y1, y2), want);
+    // every position range and value range, against a plain count
+    for l in 0..=seq.len() {
+        for r in l..=seq.len() {
+            for a in 0..8 {
+                for b in a..8 {
+                    let inside = |v: &&u32| (a..=b).contains(*v);
+                    let want = seq[l..r].iter().filter(inside).count();
+                    assert_eq!(tree.count(l, r, a, b), want);
+                }
             }
         }
     }
