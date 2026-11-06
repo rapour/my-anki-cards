@@ -28,10 +28,9 @@ IP 1.1.1.1.80 > 192.168.1.60.53852: Flags [S.], seq 12642551, ack 3463936290, wi
 
 | Symptom | Likely cause | Check |
 |---|---|---|
-| apps work but show the internet provider's address | Android fell back to mobile data | turn mobile data off and test again |
 | no traffic from the phone at all | the phone's static IP settings didn't take | `tcpdump` on the Wi-Fi interface |
 | packets arrive, nothing leaves the tunnel | UFW or another rule drops them first | `iptables -vnL FORWARD` counters |
 | DNS and ping work, HTTPS hangs | the tunnel's MTU is smaller | compare `ip link show tun0` with 1500, add MSS clamping |
 | the phone has an IPv6 address | something on the network advertises a prefix | `ip -6 route show`, and the router's IPv6 settings |
 
-**Start with the mobile-data test** when the behaviour is unclear. With mobile data off, no connectivity means forwarding never worked, and working with the VPN's address means only Android's preference was at fault.
+**The final check is on the phone:** a website that shows your public IP address must show the VPN's address, never your internet provider's.

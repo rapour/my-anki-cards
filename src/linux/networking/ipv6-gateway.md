@@ -23,7 +23,7 @@ dhcp-range=fd00:1337::,ra-only,64,12h
 dhcp-option=option6:dns-server,[fd00:1337::1]
 ```
 
-`ra-only` means: send router advertisements only, and let devices build their own addresses (SLAAC), with no DHCPv6. Android doesn't take addresses from DHCPv6, so a DHCPv6-only setup would leave it with none.
+`ra-only` means: send router advertisements only, and let devices build their own addresses (SLAAC), with no DHCPv6. Some devices never take addresses from DHCPv6, so router advertisements are the method every device understands.
 
 **3. NAT and the kill switch, for IPv6:**
 
@@ -36,6 +36,6 @@ sudo ip6tables -A FORWARD -i wlp0s20f3 -j DROP
 
 Don't block ICMPv6 on `INPUT`. IPv6 finds neighbours and path sizes with it, so filtering it the way people filter IPv4's ICMP breaks the link in confusing ways.
 
-**Why IPv6 will sit idle.** Devices choose source and destination addresses by the rules of **RFC 6724**, which Android follows. One rule prefers a source and destination of the same kind. A ULA source paired with a public IPv6 destination loses to IPv4, so the phone keeps using IPv4 for nearly everything. Real use needs a public IPv6 prefix delegated by the VPN server, which few providers offer.
+**Why IPv6 will sit idle.** Devices choose source and destination addresses by the rules of **RFC 6724**, which most operating systems follow. One rule prefers a source and destination of the same kind. A ULA source paired with a public IPv6 destination loses to IPv4, so the phone keeps using IPv4 for nearly everything. Real use needs a public IPv6 prefix delegated by the VPN server, which few providers offer.
 
 Also, RAs go to the whole Wi-Fi, so **every** device there will start treating the laptop as an IPv6 router.

@@ -1,4 +1,4 @@
-An Ubuntu laptop is set up to forward a phone's traffic into a VPN tunnel, but the phone's apps don't use the VPN. How does **UFW**, Ubuntu's firewall front end, cause that, and what are the two fixes?
+An Ubuntu laptop is set up to forward a phone's traffic into a VPN tunnel, but nothing the phone sends comes out of the VPN. How does **UFW**, Ubuntu's firewall front end, cause that, and what are the two fixes?
 
 ---
 
@@ -13,8 +13,6 @@ Any forwarded packet that no rule explicitly accepts is dropped. Tested, with UF
 ```text
 phone fetches 1.1.1.1 → (timed out)
 ```
-
-**Why the phone hides it.** Android checks every Wi-Fi network by fetching a known web address. The drops make that check fail, so Android marks the Wi-Fi as having no internet and moves apps onto **mobile data**. Everything on the phone still works, just not through the VPN. To see the real state, turn mobile data off: with forwarding broken, apps then have no connection at all.
 
 **Fix 1: let forwarding through by default.**
 

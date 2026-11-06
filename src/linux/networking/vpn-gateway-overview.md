@@ -1,4 +1,4 @@
-How do you turn an Ubuntu laptop that is connected to OpenVPN into a gateway that sends an Android phone's traffic through the VPN, with no VPN app on the phone? List the steps in order and what each one is for.
+How do you turn an Ubuntu laptop that is connected to OpenVPN into a gateway that sends a phone's traffic through the VPN, with no VPN app on the phone? List the steps in order and what each one is for.
 
 ---
 
@@ -13,7 +13,7 @@ The laptop becomes the phone's **default gateway** on the home Wi-Fi. It passes 
 <rect x="186" y="56" width="268" height="232" rx="8" class="zone"/>
 <text x="320" y="74" text-anchor="middle" class="m">Ubuntu laptop: wlp0s20f3 192.168.1.7 and tun0</text>
 <rect x="14" y="110" width="150" height="64" rx="6" class="k"/>
-<text x="89.0" y="130.5" text-anchor="middle">Android phone</text>
+<text x="89.0" y="130.5" text-anchor="middle">Phone</text>
 <text x="89.0" y="146.5" text-anchor="middle" class="m">192.168.1.60, static</text>
 <text x="89.0" y="162.5" text-anchor="middle" class="m">gateway and DNS: .1.7</text>
 <rect x="200" y="90" width="240" height="52" rx="6" class="k"/>
@@ -58,8 +58,8 @@ The laptop becomes the phone's **default gateway** on the home Wi-Fi. It passes 
 5. **Persistence.** `iptables-persistent`, then inspect with `iptables-save` and run `netfilter-persistent save`. The sysctl, UFW and dnsmasq files persist on their own.
 6. **DNS.** Run dnsmasq on the laptop (`interface=wlp0s20f3`, `bind-dynamic`, `no-resolv`, `server=` the VPN's resolver), or give the phone a public resolver. A DNS server of 192.168.1.1 would leak every lookup to the internet provider.
 7. **Pin the laptop's address,** with `nmcli … ipv4.method manual` or a DHCP reservation, so the phone's typed-in gateway stays valid.
-8. **The phone.** Static IP 192.168.1.60, gateway and DNS 192.168.1.7. Check Android's adaptive connectivity and automatic switching to mobile data.
+8. **The phone.** Static IP 192.168.1.60, gateway and DNS 192.168.1.7.
 9. **IPv6.** If the tunnel is IPv4 only, make sure nothing advertises IPv6 to the phone, or it bypasses the laptop.
-10. **Verify** with mobile data off: a public-IP website in the phone's browser must show the VPN's address.
+10. **Verify:** a website that shows your public IP address, opened on the phone, must show the VPN's address.
 
 **Alternative:** a hotspot on a second Wi-Fi radio (`nmcli device wifi hotspot`) replaces steps 7 and 8 and closes the IPv6 hole.

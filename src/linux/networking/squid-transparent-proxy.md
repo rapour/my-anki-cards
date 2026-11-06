@@ -28,4 +28,4 @@ sudo iptables -t nat -A PREROUTING -i wlp0s20f3 -s 192.168.1.0/24 \
 
 `PREROUTING` runs before the routing decision, and `REDIRECT` turns a packet for any outside address into a packet for this machine's port 3129.
 
-**Why not port 443.** To read HTTPS, Squid must decrypt it (*SSL bump*) and re-encrypt it with a certificate signed by its own certificate authority (CA). The phone would have to trust that CA. Apps that target Android 7 or later **ignore user-installed CAs** unless they explicitly opt in, so most apps would just fail. Let HTTPS pass through the NAT untouched.
+**Why not port 443.** To read HTTPS, Squid must decrypt it (*SSL bump*) and re-encrypt it with a certificate signed by its own certificate authority (CA). The phone would have to trust that CA. Many apps **don't trust a CA the user installed**, or accept only their own server's certificate (*certificate pinning*), so they would fail instead of working through the proxy. Let HTTPS pass through the NAT untouched.

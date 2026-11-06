@@ -2,7 +2,7 @@ A laptop forwards a phone's IPv4 traffic into an IPv4-only VPN tunnel. How could
 
 ---
 
-**IPv6 configures itself.** A router on the network sends **router advertisements** (RAs): "here is a network prefix, and I am a way out." Every device that hears one builds its own IPv6 address from the prefix (*SLAAC*, stateless address autoconfiguration) and uses that router for IPv6. Nothing has to be typed in, and Android's static-IP screen covers only IPv4.
+**IPv6 configures itself.** A router on the network sends **router advertisements** (RAs): "here is a network prefix, and I am a way out." Every device that hears one builds its own IPv6 address from the prefix (*SLAAC*, stateless address autoconfiguration) and uses that router for IPv6. Nothing has to be typed in, and a static IPv4 setting on the device doesn't stop it.
 
 **The bypass.** The phone's typed-in gateway, the laptop, is an IPv4 setting. If the home router starts advertising an IPv6 prefix, for example after a firmware update, the phone takes an IPv6 address and sends IPv6 traffic **straight to the router**. Any site reachable over IPv6 is then reached outside the VPN.
 
