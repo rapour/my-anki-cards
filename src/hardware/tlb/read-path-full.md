@@ -31,7 +31,7 @@ What are all the steps of a memory read, including a miss in the TLB (the CPU's 
 <polyline points="125,190 125,260" class="lg" marker-end="url(#ag)"/>
 <rect x="115.5" y="216" width="19" height="18" rx="9" class="bg"/><text x="125" y="229" text-anchor="middle" class="bt">2</text>
 <text x="142" y="221" text-anchor="start">TLB hit:</text>
-<text x="142" y="237" text-anchor="start">physical address</text>
+<text x="142" y="237" text-anchor="start">frame number + offset</text>
 <polyline points="205,150 375,150" class="lo" marker-end="url(#ao)"/>
 <text x="305" y="120" text-anchor="middle" class="m">TLB miss:</text>
 <text x="305" y="134" text-anchor="middle" class="m">page walk</text>
@@ -57,8 +57,8 @@ What are all the steps of a memory read, including a miss in the TLB (the CPU's 
 
 1. The CPU sends a **virtual address** to the TLB.
 2. The TLB looks for the mapping of that page.
-    - **Hit:** the TLB sends the physical address to the cache (arrow 2).
-    - **Miss:** the CPU walks the page tables in RAM (2a). The mapping comes back (2b) and is saved in the TLB, which then sends the physical address to the cache.
+    - **Hit:** the TLB gives the page's **frame number**. Placed in front of the page offset (the address's low 12 bits, which translation never changes), it forms the physical address that goes to the cache (arrow 2).
+    - **Miss:** the CPU walks the page tables in RAM (2a). The mapping comes back (2b) and is saved in the TLB, and the access continues as a hit.
 3. The cache looks for the data at that physical address.
     - **Hit:** the data goes back to the CPU (arrow 3).
     - **Miss:** the request goes to RAM (3a). RAM returns a 64-byte cache line (3b). The cache keeps a copy and the CPU gets its data.

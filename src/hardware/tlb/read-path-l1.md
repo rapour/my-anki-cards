@@ -23,7 +23,7 @@ Step by step, how does a memory read travel from the CPU through the TLB (its sm
 <text x="128" y="84" text-anchor="start">virtual address</text>
 <polyline points="110,150 110,190" class="lk" marker-end="url(#ak)"/>
 <rect x="100.5" y="161" width="19" height="18" rx="9" class="bk"/><text x="110" y="174" text-anchor="middle" class="bt">2</text>
-<text x="128" y="174" text-anchor="start">physical address</text>
+<text x="128" y="174" text-anchor="start">frame number + offset</text>
 <polyline points="110,240 110,290" class="lo" marker-end="url(#ao)"/>
 <rect x="100.5" y="256" width="19" height="18" rx="9" class="bo"/><text x="110" y="269" text-anchor="middle" class="bto">4</text>
 <text x="128" y="269" text-anchor="start">L1 miss: ask RAM</text>
@@ -43,9 +43,9 @@ Step by step, how does a memory read travel from the CPU through the TLB (its sm
 </div>
 
 1. The CPU sends a **virtual address** to the TLB.
-2. The TLB returns the **physical address** (this assumes a TLB hit).
+2. The TLB returns the **frame number**: which 4 KiB block of RAM holds the page (this assumes a TLB hit). Placed in front of the *page offset*, the address's low 12 bits, which translation never changes, it forms the **physical address**. Most L1 caches start picking the set from those offset bits while the TLB is still working.
 3. **L1 hit:** the L1 cache has that address, so the data goes straight back to the CPU. This is the fast path.
 4. **L1 miss:** the request goes on to main RAM. On a real CPU it tries the L2 and L3 caches first.
 5. RAM returns a 64-byte cache line. The L1 cache keeps a copy and the CPU gets its data. This is the slow path.
 
-**Remember:** the TLB gives the address, the cache gives the data. If the translation is not in the TLB (a *TLB miss*), the CPU first has to look it up in the page table in RAM, which is slower.
+**Remember:** the TLB gives the frame, which locates the memory; the cache gives the data. If the translation is not in the TLB (a *TLB miss*), the CPU first has to look it up in the page table in RAM, which is slower.
